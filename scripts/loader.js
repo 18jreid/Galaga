@@ -9,7 +9,8 @@ let MyGame = {
 MyGame.loader = (function () {
     'use strict';
 
-    let scriptOrder = [
+    // Scripts to be loaded into game
+    let myScripts = [
         {
             scripts: [
                 "scripts/input-keyboard.js",
@@ -26,13 +27,19 @@ MyGame.loader = (function () {
         }
     ];
 
-    let assetOrder = [
+    // Assets to be loaded into game
+    let myAssets = [
         {
-            key: 'usu-logo',
-            source: "assets/USU-Logo.png"
+            key: 'background',
+            source: "assets/background.png"
+        },
+        {
+            key: 'gameBackground',
+            source: "assets/gameBackground.png"
         }
     ]
 
+    // Loads in an asset into asset objects
     function loadAsset(source, onSuccess, onError) {
         let xhr = new XMLHttpRequest(),
             asset = null,
@@ -68,26 +75,17 @@ MyGame.loader = (function () {
         xhr.send();
     }
 
+    // Reverses string (used for getting file extensions)
     function reverseString(str) {
-        // Step 1. Use the split() method to return a new array
-        var splitString = str.split(""); // var splitString = "hello".split("");
-        // ["h", "e", "l", "l", "o"]
-     
-        // Step 2. Use the reverse() method to reverse the new created array
-        var reverseArray = splitString.reverse(); // var reverseArray = ["h", "e", "l", "l", "o"].reverse();
-        // ["o", "l", "l", "e", "h"]
-     
-        // Step 3. Use the join() method to join all elements of the array into a string
-        var joinArray = reverseArray.join(""); // var joinArray = ["o", "l", "l", "e", "h"].join("");
-        // "olleh"
+        var splitString = str.split("");
+        var reverseArray = splitString.reverse();
+        var joinArray = reverseArray.join("");
         
-        //Step 4. Return the reversed string
         return joinArray; // "olleh"
     }
 
+    // Loads all scripts
     function loadScripts(scripts, onComplete) {
-        //
-        // When we run out of things to load, that is when we call onComplete.
         if (scripts.length > 0) {
             let entry = scripts[0];
             require(entry.scripts, function () {
@@ -100,10 +98,10 @@ MyGame.loader = (function () {
             });
         } else {
             onComplete();
-            MyGame.game.initialize();
         }
     }
 
+    // Load in all assets in assets folder
     function loadAssets(assets, onSuccess, onError, onComplete) {
         //
         // When we run out of things to load, that is when we call onComplete.
@@ -125,13 +123,14 @@ MyGame.loader = (function () {
         }
     }
 
+    // Start Game
     function mainComplete() {
-        console.log('it is all loaded up');
-        // Galaga.main.initMenu();
+        console.log('Complete');
+        MyGame.game.initialize();
     }
 
     console.log('Starting to dynamically load project assets');
-    loadAssets(assetOrder,
+    loadAssets(myAssets,
         function (source, asset) {    // Store it on success
             MyGame.assets[source.key] = asset;
         },
@@ -141,7 +140,7 @@ MyGame.loader = (function () {
         function () {
             console.log('All assets loaded');
             console.log('Starting to dynamically load project scripts');
-            loadScripts(scriptOrder, mainComplete);
+            loadScripts(myScripts, mainComplete);
         }
     );
 }());

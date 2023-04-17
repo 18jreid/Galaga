@@ -5,10 +5,10 @@ MyGame.screens['game-play'] = (function(game, input) {
     let cancelNextRequest = true;
     let assets = [];
 
-    // background image
+    // Gameplay background image
     let backgroundImg = new Image();
     backgroundImg.isReady = false;
-    backgroundImg.src = 'assets/USU-Logo.png';
+    backgroundImg.src = MyGame.assets['gameBackground'].src;
     backgroundImg.onload = function () {
         this.isReady = true;
     };
@@ -24,7 +24,11 @@ MyGame.screens['game-play'] = (function(game, input) {
     }
 
     function render() {
-        MyGame.graphics.drawTexture(backgroundImg, { x: 100, y: 100 }, 0, { width: 100, height: 100 })
+        MyGame.graphics.drawTexture(
+            backgroundImg,
+            { x: MyGame.graphics.canvas.width / 2, y: MyGame.graphics.canvas.height / 2 },
+            0,
+            { width: MyGame.graphics.canvas.width, height: MyGame.graphics.canvas.height });
     }
 
     function gameLoop(time) {
