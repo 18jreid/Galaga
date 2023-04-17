@@ -34,6 +34,7 @@ MyGame.assetCreator = (function() {
         player.rotation = 0;
         player.timeSinceLastFire = 0;
         player.lives = [];
+        player.time = 0;
 
         let xOffset = 25;
         for (let i = 0; i < 3; i++) {
@@ -76,14 +77,15 @@ MyGame.assetCreator = (function() {
             player.renderLives();
         };
 
-        player.moveLeft = function (elapsedTime) {
-            player.center.x -= player.moveRate * elapsedTime;
+        player.moveLeft = function () {
+            player.center.x -= player.moveRate * player.time;
         };
-        player.moveRight = function (elapsedTime) {
-            player.center.x += player.moveRate * elapsedTime;
+        player.moveRight = function () {
+            player.center.x += player.moveRate * player.time;
         }
         player.update = function (elapsedTime) {
-            player.timeSinceLastFire += elapsedTime;
+            player.time = elapsedTime;
+            player.timeSinceLastFire += player.time;
             if (player.center.x <= player.size.width / 2) {
                 player.center.x += (player.size.width / 6);
             }
@@ -94,7 +96,7 @@ MyGame.assetCreator = (function() {
 
         player.fireBullet = function () {
             if (player.timeSinceLastFire > 600) {
-                getBullet(player);
+                getBullet(player, player.time);
                 document.getElementById('player-shot-sound').play();
                 player.timeSinceLastFire = 0;
             }
@@ -103,7 +105,7 @@ MyGame.assetCreator = (function() {
         return player;
     }
 
-    function getBullet(player, elapsedTime) {
+    function getBullet(player) {
         // Define player image
         let bullet = new Image();
         bullet.isReady = false;
@@ -114,7 +116,7 @@ MyGame.assetCreator = (function() {
         // Define player attributes
         bullet.center = {x: player.center.x, y: player.center.y };
         bullet.size = {width: bullet.width * 2.25, height: bullet.height * 2.25};
-        bullet.moveRate = 2;
+        bullet.moveRate = 0.70;
         bullet.rotation = 0;
         MyGame.screens['game-play'].addProjectile(bullet);
 
@@ -127,8 +129,12 @@ MyGame.assetCreator = (function() {
                 { width: bullet.size.width, height: bullet.size.height });
         };
 
-        bullet.update = function(elapsedTime) {
-            bullet.center.y -= bullet.moveRate;
+        bullet.moveUp = function() {
+            bullet.center.y -= player.time * bullet.moveRate;
+        }
+
+        bullet.update = function() {
+            bullet.moveUp();
         }
     }
 
