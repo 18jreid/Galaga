@@ -13,7 +13,7 @@ let mimeTypes = {
     '.mp3': 'audio/mpeg3',
     '.mp4': 'video/mp4'
 };
-const port = 3000;
+const port = 8000;
 
 function handleRequest(request, response) {
     let lookup = (request.url === '/') ? '/index.html' : decodeURI(request.url);

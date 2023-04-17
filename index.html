@@ -7,14 +7,16 @@
     <link rel = "stylesheet" type = "text/css" href = "styles/game.css">
 </head>
 <body>
+    <audio id="game-start-sound" src="assets/GameStart.mp3" autoplay ></audio>
+    <audio id="button-select-sound" src="assets/button-select.mp3" ></audio>
     <div id = "game">
         <div id = "main-menu" class = "screen">
             <div id="title"></div>
-            <ul class = "menu">
-                <li><button id = "id-new-game">New&nbsp;Game</button></li>
-                <li><button id = "id-high-scores">High&nbsp;Scores</button></li>
-                <li><button id = "id-help">Help</button></li>
-                <li><button id = "id-about">About</button></li>
+            <ul class = "menu" style="margin-top: 30vh; font-size: 2em;">
+                <p class="menu-button" id="id-new-game">New Game</p>
+                <p class="menu-button" id="id-high-scores">High Scores</p>
+                <p class="menu-button" id="id-help">Settings</p>
+                <p class="menu-button" id="id-about">About</p>
             </ul>
         </div>
         <div id = "game-play" class = "screen">

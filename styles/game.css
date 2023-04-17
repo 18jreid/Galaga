@@ -10,7 +10,9 @@ body {
     width: 750px;
     height: 1000px;
     font-size: 40px;
-    background-image: url("/assets/gameBackground.png");
+    background-image: url("/assets/background.png");
+    background-repeat: no-repeat;
+    background-color: black;
 }
 
 .game-play.canvas {
@@ -53,6 +55,14 @@ ul.menu li {
     margin: 0.8em 0;
 }
 
+.menu-button {
+    color: white;
+}
+
+.menu-button:hover {
+    color: red;
+}
+
 ul.menu li button {
     font-family: Arial, sans-serif;
     font-size: 0.6em;
@@ -84,12 +94,22 @@ ul.menu li button:active {
     padding: 0;
     margin: 0;
     list-style: none;
+    color: white;
+    margin-top: 33vh;
 }
 
 #game div p {
     font-size: 0.5em;
 }
 
-#about p {
+#about {
     text-align: center;
+    color: white;
+    padding-top: 33vh;
+}
+
+#help {
+    text-align: center;
+    color: white;
+    padding-top: 33vh;
 }

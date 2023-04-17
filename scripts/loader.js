@@ -45,6 +45,14 @@ MyGame.loader = (function () {
         {
             key: 'html_background',
             source: "assets/html_background.jpg"
+        },
+        {
+            key: 'gameStartSound',
+            source: "assets/GameStart.mp3"
+        },
+        {
+            key: 'button-select',
+            source: "assets/button-select.mp3"
         }
     ]
 
