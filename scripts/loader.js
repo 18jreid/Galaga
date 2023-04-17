@@ -57,6 +57,10 @@ MyGame.loader = (function () {
         {
             key: 'player-bullet',
             source: "assets/playerBullet.png"
+        },
+        {
+            key: 'player-shot-sound',
+            source: "assets/player-shot.mp3"
         }
     ]
 

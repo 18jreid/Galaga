@@ -28,11 +28,43 @@ MyGame.assetCreator = (function() {
             this.isReady = true;
         };
         // Define player attributes
-        player.center = {x: MyGame.graphics.canvas.width / 2, y: MyGame.graphics.canvas.height - (player.height * 2) };
+        player.center = {x: MyGame.graphics.canvas.width / 2, y: MyGame.graphics.canvas.height - (player.height * 5) };
         player.size = {width: player.width * 2, height: player.height * 2};
         player.moveRate = 0.25;
         player.rotation = 0;
         player.timeSinceLastFire = 0;
+        player.lives = [];
+
+        let xOffset = 25;
+        for (let i = 0; i < 3; i++) {
+            // Define life image
+            let life = new Image();
+            life.isReady = false;
+            life.src = MyGame.assets['player'].src;
+            life.onload = function () {
+                this.isReady = true;
+            };
+            // Define player attributes
+            life.center = {x: xOffset, y: MyGame.graphics.canvas.height - life.height };
+            life.size = {width: life.width * 2, height: (life.height * 2)};
+            life.render = function() {
+                MyGame.graphics.drawTexture(
+                    life,
+                    {x: life.center.x, y: life.center.y},
+                    0,
+                    {width: life.size.width, height: life.size.height}
+                )
+            }
+
+            player.lives.push(life);
+            xOffset += life.size.width + 5;
+        }
+
+        player.renderLives = function() {
+            for (let i = 0; i < player.lives.length; i++) {
+                player.lives[i].render();
+            }
+        }
 
         // Define player functions
         player.render = function() {
@@ -41,6 +73,7 @@ MyGame.assetCreator = (function() {
                 { x: player.center.x, y: player.center.y },
                 0,
                 { width: player.size.width, height: player.size.height });
+            player.renderLives();
         };
 
         player.moveLeft = function (elapsedTime) {
@@ -60,8 +93,9 @@ MyGame.assetCreator = (function() {
         }
 
         player.fireBullet = function () {
-            if (player.timeSinceLastFire > 500) {
+            if (player.timeSinceLastFire > 600) {
                 getBullet(player);
+                document.getElementById('player-shot-sound').play();
                 player.timeSinceLastFire = 0;
             }
         }
@@ -97,9 +131,37 @@ MyGame.assetCreator = (function() {
             bullet.center.y -= bullet.moveRate;
         }
     }
+
+    function drawHighscoreHeader() {
+        let highscoreHeader = MyGame.graphics.Text({
+            text : 'High Score',
+            font : '30px arial',
+            fill : 'Red',
+            stroke : 'Red',
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 60 , y : 10},
+            rotation : 0
+        });
+
+        return highscoreHeader;
+    }
+
+    function drawHighscoreValue() {
+        let highscoreValue = MyGame.graphics.Text({
+            text : '0',
+            font : '30px arial',
+            fill : 'white',
+            stroke : 'white',
+            pos : {x : (MyGame.graphics.canvas.width / 2) , y : 40},
+            rotation : 0
+        });
+
+        return highscoreValue;
+    }
     
     return {
         getBackgroundImage: getBackgroundImage,
-        getPlayer : getPlayer
+        getPlayer : getPlayer,
+        drawHighscoreHeader : drawHighscoreHeader,
+        drawHighscoreValue : drawHighscoreValue
     };
 }());

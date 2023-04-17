@@ -8,6 +8,8 @@ MyGame.screens['game-play'] = (function(game, input) {
     let backgroundImg;
     let player;
     let projectiles = [];
+    let highscoreHeader;
+    let highscoreValue;
 
     let myKeyboard = input.Keyboard();
 
@@ -27,7 +29,13 @@ MyGame.screens['game-play'] = (function(game, input) {
 
     function render() {
         backgroundImg.render();
+        highscoreHeader.draw();
+        highscoreValue.draw();
+
+        // Render player attributes
         player.render();
+
+        // Render projectiles
         for (let i = 0; i < projectiles.length; i++) {
             projectiles[i].render();
         }
@@ -50,6 +58,8 @@ MyGame.screens['game-play'] = (function(game, input) {
         backgroundImg = MyGame.assetCreator.getBackgroundImage();
         player = MyGame.assetCreator.getPlayer();
         projectiles = [];
+        highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
+        highscoreValue = MyGame.assetCreator.drawHighscoreValue();
 
         // myKeyboard.register('Escape', function() {
         //     //
