@@ -113,7 +113,7 @@ MyGame.assetCreator = (function() {
         };
         // Define player attributes
         bullet.center = {x: player.center.x, y: player.center.y };
-        bullet.size = {width: bullet.width * 2, height: bullet.height * 2};
+        bullet.size = {width: bullet.width * 2.25, height: bullet.height * 2.25};
         bullet.moveRate = 2;
         bullet.rotation = 0;
         MyGame.screens['game-play'].addProjectile(bullet);
@@ -135,10 +135,10 @@ MyGame.assetCreator = (function() {
     function drawHighscoreHeader() {
         let highscoreHeader = MyGame.graphics.Text({
             text : 'High Score',
-            font : '30px arial',
+            font : '30px Turret Road',
             fill : 'Red',
             stroke : 'Red',
-            pos : {x : (MyGame.graphics.canvas.width / 2) - 60 , y : 10},
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 70 , y : 10},
             rotation : 0
         });
 
@@ -148,10 +148,10 @@ MyGame.assetCreator = (function() {
     function drawHighscoreValue() {
         let highscoreValue = MyGame.graphics.Text({
             text : '0',
-            font : '30px arial',
+            font : '30px Turret Road',
             fill : 'white',
             stroke : 'white',
-            pos : {x : (MyGame.graphics.canvas.width / 2) , y : 40},
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 10, y : 40},
             rotation : 0
         });
 

@@ -1,6 +1,8 @@
 body {
     margin: 0;
     background-image: url("/assets/HTML_Background.jpg");
+    font-family: 'Turret Road', cursive;
+    background-color: black;
 }
 
 #game {
@@ -64,24 +66,20 @@ ul.menu li {
 }
 
 ul.menu li button {
-    font-family: Arial, sans-serif;
+    font-family: 'Turret Road', cursive;
     font-size: 0.6em;
-    color: #CECEF6;
+    color: white;
     width: 10em;
     height: 1.5em;
-    background: #0404B4;
-    border: 0.1em solid rgb(255, 0, 0);
+    background: red;
+    border: 0.1em solid red;
     border-radius: 0.5em;
     box-shadow: 0.2em 0.2em 0.3em rgb(0, 0, 0);
 }
 
 ul.menu li button:hover {
-    background: #2E2EFE;
-}
-
-ul.menu li button:active {
-    color: #CECEF6;
-    background: rgb(0, 0, 0);
+    background: darkred;
+    border: 0.1em solid darkred;
 }
 
 #game div h1 {
@@ -89,13 +87,14 @@ ul.menu li button:active {
     text-align: center;
 }
 
-#high-scores ol {
+#high-scores {
     text-align: center;
     padding: 0;
     margin: 0;
     list-style: none;
+    list-style-position: inside;
     color: white;
-    margin-top: 33vh;
+    padding-top: 33vh;
 }
 
 #game div p {
