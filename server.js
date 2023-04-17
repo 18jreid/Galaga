@@ -1,9 +1,3 @@
-//------------------------------------------------------------------
-//
-// Super, duper simple http server.  Serves the purpose needed for the
-// demos I'm writing and no more.
-//
-//------------------------------------------------------------------
 'use strict';
 
 let http = require('http');
@@ -13,13 +7,15 @@ let fs = require('fs');
 let mimeTypes = {
     '.js' : 'text/javascript',
     '.html' : 'text/html',
-    '.css' : 'text/css'
+    '.css' : 'text/css',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.mp3': 'audio/mpeg3',
+    '.mp4': 'video/mp4'
 };
 const port = 3000;
 
 function handleRequest(request, response) {
-    console.log(`request : ${request.url} `);
-    console.log(`request decoded: ${decodeURI(request.url)}`);
     let lookup = (request.url === '/') ? '/index.html' : decodeURI(request.url);
     let file = lookup.substring(1, lookup.length);
 

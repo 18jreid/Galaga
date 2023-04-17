@@ -3,6 +3,16 @@ MyGame.screens['game-play'] = (function(game, input) {
 
     let lastTimeStamp = performance.now();
     let cancelNextRequest = true;
+    let assets = [];
+
+    // background image
+    let backgroundImg = new Image();
+    backgroundImg.isReady = false;
+    backgroundImg.src = 'assets/USU-Logo.png';
+    backgroundImg.onload = function () {
+        this.isReady = true;
+    };
+    
 
     let myKeyboard = input.Keyboard();
 
@@ -14,6 +24,7 @@ MyGame.screens['game-play'] = (function(game, input) {
     }
 
     function render() {
+        MyGame.graphics.drawTexture(backgroundImg, { x: 100, y: 100 }, 0, { width: 100, height: 100 })
     }
 
     function gameLoop(time) {

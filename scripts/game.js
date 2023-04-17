@@ -50,6 +50,6 @@ MyGame.game = (function(screens) {
     
     return {
         initialize : initialize,
-        showScreen : showScreen
+        showScreen : showScreen,
     };
 }(MyGame.screens));
