@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    background-image: url("/assets/HTML_Background.jpg");
 }
 
 #game {

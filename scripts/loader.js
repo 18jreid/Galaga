@@ -13,6 +13,7 @@ MyGame.loader = (function () {
     let myScripts = [
         {
             scripts: [
+                "scripts/render/assets.js",
                 "scripts/input-keyboard.js",
                 "scripts/game.js",
                 "scripts/mainmenu.js",
@@ -20,7 +21,7 @@ MyGame.loader = (function () {
                 "scripts/gameplay.js",
                 "scripts/highscores.js",
                 "scripts/help.js",
-                "scripts/about.js"
+                "scripts/about.js",
             ],
             message: "Scripts loaded",
             onComplete: null
@@ -36,6 +37,14 @@ MyGame.loader = (function () {
         {
             key: 'gameBackground',
             source: "assets/gameBackground.png"
+        },
+        {
+            key: 'player',
+            source: "assets/player.png"
+        },
+        {
+            key: 'html_background',
+            source: "assets/html_background.jpg"
         }
     ]
 

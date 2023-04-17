@@ -5,14 +5,9 @@ MyGame.screens['game-play'] = (function(game, input) {
     let cancelNextRequest = true;
     let assets = [];
 
-    // Gameplay background image
-    let backgroundImg = new Image();
-    backgroundImg.isReady = false;
-    backgroundImg.src = MyGame.assets['gameBackground'].src;
-    backgroundImg.onload = function () {
-        this.isReady = true;
-    };
-    
+    // Create Assets
+    let backgroundImg = MyGame.assetCreator.getBackgroundImage();
+    let player = MyGame.assetCreator.getPlayer();
 
     let myKeyboard = input.Keyboard();
 
@@ -24,11 +19,8 @@ MyGame.screens['game-play'] = (function(game, input) {
     }
 
     function render() {
-        MyGame.graphics.drawTexture(
-            backgroundImg,
-            { x: MyGame.graphics.canvas.width / 2, y: MyGame.graphics.canvas.height / 2 },
-            0,
-            { width: MyGame.graphics.canvas.width, height: MyGame.graphics.canvas.height });
+        backgroundImg.render();
+        player.render();
     }
 
     function gameLoop(time) {
