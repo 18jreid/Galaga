@@ -1,12 +1,17 @@
 MyGame.screens['main-menu'] = (function(game) {
     'use strict';
+    let lastTimeStamp = performance.now();
+    let cancelNextRequest = true;
     
     function initialize() {
         //
         // Setup each of menu events for the screens
         document.getElementById('id-new-game').addEventListener(
             'click',
-            function() {game.showScreen('game-play'); });
+            function() {
+                game.showScreen('game-play');
+                cancelNextRequest = true;
+            });
         
         document.getElementById('id-high-scores').addEventListener(
             'click',
@@ -20,10 +25,30 @@ MyGame.screens['main-menu'] = (function(game) {
             'click',
             function() { game.showScreen('about'); });
     }
-    
+
+    function update() {
+        
+    }
+
+    function render() {
+    }
+
+    function gameLoop(time) {
+        let elapsedTime = time - lastTimeStamp;
+        lastTimeStamp = time;
+
+        update();
+        render();
+
+        if (!cancelNextRequest) {
+            requestAnimationFrame(gameLoop);
+        }
+    }
+
     function run() {
-        //
-        // I know this is empty, there isn't anything to do.
+        lastTimeStamp = performance.now();
+        cancelNextRequest = false;
+        requestAnimationFrame(gameLoop);
     }
     
     return {

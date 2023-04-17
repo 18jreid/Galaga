@@ -3,11 +3,10 @@ MyGame.screens['game-play'] = (function(game, input) {
 
     let lastTimeStamp = performance.now();
     let cancelNextRequest = true;
-    let assets = [];
 
     // Create Assets
-    let backgroundImg = MyGame.assetCreator.getBackgroundImage();
-    let player = MyGame.assetCreator.getPlayer();
+    let backgroundImg;
+    let player;
 
     let myKeyboard = input.Keyboard();
 
@@ -45,6 +44,9 @@ MyGame.screens['game-play'] = (function(game, input) {
             // Then, return to the main menu
             game.showScreen('main-menu');
         });
+
+        backgroundImg = MyGame.assetCreator.getBackgroundImage();
+        player = MyGame.assetCreator.getPlayer();
     }
 
     function run() {

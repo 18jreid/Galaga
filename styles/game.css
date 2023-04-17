@@ -5,13 +5,12 @@ body {
 
 #game {
     margin: auto;
+    margin-top: 7.55vh;
     display: block;
     width: 750px;
-    height: 750px;
-    border-style: solid;
-    border-width: 1px;
-    background-color: rgb(239,239,251);
+    height: 1000px;
     font-size: 40px;
+    background-image: url("/assets/gameBackground.png");
 }
 
 .game-play.canvas {
