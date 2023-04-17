@@ -20,18 +20,41 @@ MyGame.assetCreator = (function() {
     }
 
     function getPlayer() {
+        // Define player image
         let player = new Image();
         player.isReady = false;
         player.src = MyGame.assets['player'].src;
         player.onload = function () {
             this.isReady = true;
         };
+        // Define player attributes
+        player.center = {x: MyGame.graphics.canvas.width / 2, y: MyGame.graphics.canvas.height - (player.height * 2) };
+        player.size = {width: player.width * 2, height: player.height * 2};
+        player.moveRate = 0.25;
+        player.rotation = 0;
+
+        // Define player functions
         player.render = function() {
             MyGame.graphics.drawTexture(
                 player,
-                { x: MyGame.graphics.canvas.width / 2, y: MyGame.graphics.canvas.height - (player.height * 2) },
+                { x: player.center.x, y: player.center.y },
                 0,
-                { width: player.width * 2, height: player.height * 2 });
+                { width: player.size.width, height: player.size.height });
+        };
+
+        player.moveLeft = function (elapsedTime) {
+            player.center.x -= player.moveRate * elapsedTime;
+        };
+        player.moveRight = function (elapsedTime) {
+            player.center.x += player.moveRate * elapsedTime;
+        }
+        player.update = function () {
+            if (player.center.x <= player.size.width / 2) {
+                player.center.x += (player.size.width / 6);
+            }
+            if (player.center.x >= MyGame.graphics.canvas.width - (player.size.width / 2)) {
+                player.center.x -= (player.size.width / 6);
+            }
         }
 
         return player;

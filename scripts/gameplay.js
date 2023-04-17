@@ -15,6 +15,7 @@ MyGame.screens['game-play'] = (function(game, input) {
     }
 
     function update() {
+        player.update();
     }
 
     function render() {
@@ -36,6 +37,9 @@ MyGame.screens['game-play'] = (function(game, input) {
     }
 
     function initialize() {
+        backgroundImg = MyGame.assetCreator.getBackgroundImage();
+        player = MyGame.assetCreator.getPlayer();
+
         myKeyboard.register('Escape', function() {
             //
             // Stop the game loop by canceling the request for the next animation frame
@@ -45,8 +49,8 @@ MyGame.screens['game-play'] = (function(game, input) {
             game.showScreen('main-menu');
         });
 
-        backgroundImg = MyGame.assetCreator.getBackgroundImage();
-        player = MyGame.assetCreator.getPlayer();
+        myKeyboard.register('a', player.moveLeft);
+        myKeyboard.register('d', player.moveRight)
     }
 
     function run() {
