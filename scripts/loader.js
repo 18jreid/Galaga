@@ -53,6 +53,10 @@ MyGame.loader = (function () {
         {
             key: 'button-select',
             source: "assets/button-select.mp3"
+        },
+        {
+            key: 'player-bullet',
+            source: "assets/playerBullet.png"
         }
     ]
 

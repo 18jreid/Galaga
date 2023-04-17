@@ -7,6 +7,7 @@ MyGame.screens['game-play'] = (function(game, input) {
     // Create Assets
     let backgroundImg;
     let player;
+    let projectiles = [];
 
     let myKeyboard = input.Keyboard();
 
@@ -14,13 +15,22 @@ MyGame.screens['game-play'] = (function(game, input) {
         myKeyboard.update(elapsedTime);
     }
 
-    function update() {
-        player.update();
+    function update(elapsedTime) {
+        player.update(elapsedTime);
+        for (let i = 0; i < projectiles.length; i++) {
+            projectiles[i].update();
+            if (projectiles[i].center.y < 0) {
+                projectiles.splice(i, 1);
+            }
+        }
     }
 
     function render() {
         backgroundImg.render();
         player.render();
+        for (let i = 0; i < projectiles.length; i++) {
+            projectiles[i].render();
+        }
     }
 
     function gameLoop(time) {
@@ -28,7 +38,7 @@ MyGame.screens['game-play'] = (function(game, input) {
         lastTimeStamp = time;
 
         processInput(elapsedTime);
-        update();
+        update(elapsedTime);
         render();
 
         if (!cancelNextRequest) {
@@ -39,18 +49,20 @@ MyGame.screens['game-play'] = (function(game, input) {
     function initialize() {
         backgroundImg = MyGame.assetCreator.getBackgroundImage();
         player = MyGame.assetCreator.getPlayer();
+        projectiles = [];
 
-        myKeyboard.register('Escape', function() {
-            //
-            // Stop the game loop by canceling the request for the next animation frame
-            cancelNextRequest = true;
-            //
-            // Then, return to the main menu
-            game.showScreen('main-menu');
-        });
+        // myKeyboard.register('Escape', function() {
+        //     //
+        //     // Stop the game loop by canceling the request for the next animation frame
+        //     cancelNextRequest = true;
+        //     //
+        //     // Then, return to the main menu
+        //     game.showScreen('main-menu');
+        // });
 
-        myKeyboard.register('a', player.moveLeft);
-        myKeyboard.register('d', player.moveRight)
+        myKeyboard.register('ArrowLeft', player.moveLeft);
+        myKeyboard.register('ArrowRight', player.moveRight)
+        myKeyboard.register(' ', player.fireBullet);
     }
 
     function run() {
@@ -59,9 +71,14 @@ MyGame.screens['game-play'] = (function(game, input) {
         requestAnimationFrame(gameLoop);
     }
 
+    function addProjectile(bullet) {
+        projectiles.push(bullet);
+    }
+
     return {
         initialize : initialize,
-        run : run
+        run : run,
+        addProjectile : addProjectile
     };
 
 }(MyGame.game, MyGame.input));

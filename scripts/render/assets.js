@@ -32,6 +32,7 @@ MyGame.assetCreator = (function() {
         player.size = {width: player.width * 2, height: player.height * 2};
         player.moveRate = 0.25;
         player.rotation = 0;
+        player.timeSinceLastFire = 0;
 
         // Define player functions
         player.render = function() {
@@ -48,7 +49,8 @@ MyGame.assetCreator = (function() {
         player.moveRight = function (elapsedTime) {
             player.center.x += player.moveRate * elapsedTime;
         }
-        player.update = function () {
+        player.update = function (elapsedTime) {
+            player.timeSinceLastFire += elapsedTime;
             if (player.center.x <= player.size.width / 2) {
                 player.center.x += (player.size.width / 6);
             }
@@ -57,7 +59,43 @@ MyGame.assetCreator = (function() {
             }
         }
 
+        player.fireBullet = function () {
+            if (player.timeSinceLastFire > 500) {
+                getBullet(player);
+                player.timeSinceLastFire = 0;
+            }
+        }
+
         return player;
+    }
+
+    function getBullet(player, elapsedTime) {
+        // Define player image
+        let bullet = new Image();
+        bullet.isReady = false;
+        bullet.src = MyGame.assets['player-bullet'].src;
+        bullet.onload = function () {
+            this.isReady = true;
+        };
+        // Define player attributes
+        bullet.center = {x: player.center.x, y: player.center.y };
+        bullet.size = {width: bullet.width * 2, height: bullet.height * 2};
+        bullet.moveRate = 2;
+        bullet.rotation = 0;
+        MyGame.screens['game-play'].addProjectile(bullet);
+
+        // Define player functions
+        bullet.render = function() {
+            MyGame.graphics.drawTexture(
+                bullet,
+                { x: bullet.center.x, y: bullet.center.y },
+                0,
+                { width: bullet.size.width, height: bullet.size.height });
+        };
+
+        bullet.update = function(elapsedTime) {
+            bullet.center.y -= bullet.moveRate;
+        }
     }
     
     return {
