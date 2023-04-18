@@ -85,47 +85,12 @@ MyGame.screens['game-play'] = (function(game, input) {
         backgroundImg = MyGame.assetCreator.getBackgroundImage();
         player = MyGame.assetCreator.getPlayer();
         enemies = [];
+        MyGame.WaveCreator.createWave1(enemies);
 
         projectiles = [];
         highscores = JSON.parse(localStorage.getItem("highScores")).sort();
         highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
         highscoreValue = MyGame.assetCreator.drawHighscoreValue(highscores[0]);
-
-        let line = {
-            points: [
-                { x: 800, y: -100 },
-                { x: 110, y: 600 },
-                { x: 115, y: 650 },
-                { x: 120, y: 660 },
-                { x: 125, y: 665 },
-                { x: 130, y: 660 },
-                { x: 135, y: 650 },
-                { x: 145, y: 600 },
-                { x: 190, y: 500 },
-                {x: 700, y: 50}
-            ]
-        };
-
-        let enemy = MyGame.objects.Enemy({
-            size: { x: 40, y: 40 },       // Size in pixels
-            center: { x: line.points[0].x, y: line.points[0].y },
-            rotation: 0,
-            moveRate: 250 / 1000,         // Pixels per second
-            rotateRate: Math.PI / 1000,    // Radians per second,
-            path: line,
-            pathIndex: 0
-        });
-        let enemyRenderer = MyGame.render.AnimatedModel({
-            spriteSheet: 'assets/enemyOneSpritesheet.png',
-            spriteCount: 2,
-            spriteTime: [500, 500],   // ms per frame
-        }, MyGame.graphics);
-
-        let enemyObject = {
-            enemy: enemy,
-            renderer: enemyRenderer
-        }
-        enemies.push(enemyObject);
 
         myKeyboard.register('Escape', function() {
             //

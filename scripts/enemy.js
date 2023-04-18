@@ -29,10 +29,17 @@ MyGame.objects.Enemy = function(spec) {
         spec.rotation += spec.rotateRate * (elapsedTime);
     }
 
+    function setTotalTime(elapsedTime) {
+        spec.totalTime += elapsedTime;
+    }
+
     let api = {
         get size() { return spec.size; },
         get path() { return spec.path; },
         get ship() { return spec },
+        get totalTime() { return spec.totalTime; },
+        get moveTime() { return spec.moveTime ;},
+        setTotalTime : setTotalTime,
         get center() { return spec.center; },
         get rotation() { return spec.rotation; },
         moveForward: moveForward,

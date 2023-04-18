@@ -27,6 +27,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     //------------------------------------------------------------------
     function update(elapsedTime, ship, projectiles, wave1Enemies, j) {
         animationTime += elapsedTime;
+        ship.setTotalTime(elapsedTime)
         //
         // Check to see if we should update the animation frame
         if (animationTime >= spec.spriteTime[subImageIndex]) {
@@ -39,7 +40,9 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
             // Wrap around from the last back to the first sprite as needed
             subImageIndex = subImageIndex % spec.spriteCount;
         }
-        updateShip(ship.ship, elapsedTime);
+        if (ship.totalTime >= ship.moveTime) {
+            updateShip(ship.ship, elapsedTime);
+        }
 
         for (let i = 0; i < projectiles.length; i++) {
             if ((projectiles[i].center.x + (projectiles[i].size.width / 2)) > (wave1Enemies[j].enemy.ship.center.x - (wave1Enemies[j].enemy.ship.size.x / 2))) {

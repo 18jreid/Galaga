@@ -26,7 +26,8 @@ MyGame.loader = (function () {
                 "scripts/gameplay.js",
                 "scripts/highscores.js",
                 "scripts/help.js",
-                "scripts/about.js"
+                "scripts/about.js",
+                "scripts/waveCreator.js"
             ],
             message: "Scripts loaded",
             onComplete: null
