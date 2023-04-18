@@ -74,7 +74,7 @@ MyGame.screens['game-play'] = (function(game, input) {
         for (let x = 0; x < 15; x++) {
             for (let y = 0; y < 5; y++) {
                 let enemy = MyGame.objects.Enemy({
-                    size: { x: 30, y: 30 },       // Size in pixels
+                    size: { x: 40, y: 40 },       // Size in pixels
                     center: { x: 50 + (x * 46), y: 150 + (y * 50) },
                     rotation: 0,
                     moveRate: 125 / 1000,         // Pixels per second
@@ -83,7 +83,7 @@ MyGame.screens['game-play'] = (function(game, input) {
                 let enemyRenderer = MyGame.render.AnimatedModel({
                     spriteSheet: 'assets/enemyOneSpritesheet.png',
                     spriteCount: 2,
-                    spriteTime: [400, 400],   // ms per frame
+                    spriteTime: [500, 500],   // ms per frame
                 }, MyGame.graphics);
 
                 let enemyObject = {
