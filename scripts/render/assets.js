@@ -37,7 +37,7 @@ MyGame.assetCreator = (function() {
         player.time = 0;
 
         let xOffset = 25;
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
             // Define life image
             let life = new Image();
             life.isReady = false;

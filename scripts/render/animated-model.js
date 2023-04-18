@@ -25,7 +25,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     // Update the state of the animation
     //
     //------------------------------------------------------------------
-    function update(elapsedTime, ship) {
+    function update(elapsedTime, ship, projectiles, wave1Enemies, j) {
         animationTime += elapsedTime;
         //
         // Check to see if we should update the animation frame
@@ -39,7 +39,20 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
             // Wrap around from the last back to the first sprite as needed
             subImageIndex = subImageIndex % spec.spriteCount;
         }
-        updateShip(ship.ship, elapsedTime)
+        updateShip(ship.ship, elapsedTime);
+
+        for (let i = 0; i < projectiles.length; i++) {
+            if ((projectiles[i].center.x + (projectiles[i].size.width / 2)) > (wave1Enemies[j].enemy.ship.center.x - (wave1Enemies[j].enemy.ship.size.x / 2))) {
+                if ((projectiles[i].center.x - (projectiles[i].size.width / 2)) < (wave1Enemies[j].enemy.ship.center.x + (wave1Enemies[j].enemy.ship.size.x / 2))) {
+                    if ((projectiles[i].center.y) < (wave1Enemies[j].enemy.ship.center.y) + (wave1Enemies[j].enemy.ship.size.y / 2)) {
+                        if ((projectiles[i].center.y) + (projectiles[i].size.height / 2) > (wave1Enemies[j].enemy.ship.center.y) - (wave1Enemies[j].enemy.ship.size.y / 2)) {
+                            wave1Enemies.splice(j, 1);
+                            projectiles.splice(i, 1);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     function computeDistance(pt1x, pt1y, pt2x, pt2y) {

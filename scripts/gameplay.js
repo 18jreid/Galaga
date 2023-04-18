@@ -27,8 +27,8 @@ MyGame.screens['game-play'] = (function(game, input) {
             }
         }
 
-        for (let i = 0; i < wave1Enemies.length; i++) {
-            wave1Enemies[i].renderer.update(elapsedTime, wave1Enemies[i].enemy);
+        for (let j = 0; j < wave1Enemies.length; j++) {
+            wave1Enemies[j].renderer.update(elapsedTime, wave1Enemies[j].enemy, projectiles, wave1Enemies, j);
         }
     }
 
@@ -66,6 +66,7 @@ MyGame.screens['game-play'] = (function(game, input) {
     function initialize() {
         backgroundImg = MyGame.assetCreator.getBackgroundImage();
         player = MyGame.assetCreator.getPlayer();
+        wave1Enemies = [];
 
         projectiles = [];
         highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
