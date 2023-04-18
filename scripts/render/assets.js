@@ -151,9 +151,9 @@ MyGame.assetCreator = (function() {
         return highscoreHeader;
     }
 
-    function drawHighscoreValue() {
+    function drawHighscoreValue(value) {
         let highscoreValue = MyGame.graphics.Text({
-            text : '0',
+            text : '' + value,
             font : '30px Turret Road',
             fill : 'white',
             stroke : 'white',

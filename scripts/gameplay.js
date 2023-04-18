@@ -8,8 +8,9 @@ MyGame.screens['game-play'] = (function(game, input) {
     let backgroundImg;
     let player;
     let projectiles = [];
-    let wave1Enemies = [];
+    let enemies = [];
     let particles = [];
+    let highscores = [];
     let highscoreHeader;
     let highscoreValue;
 
@@ -28,8 +29,8 @@ MyGame.screens['game-play'] = (function(game, input) {
             }
         }
 
-        for (let j = 0; j < wave1Enemies.length; j++) {
-            wave1Enemies[j].renderer.update(elapsedTime, wave1Enemies[j].enemy, projectiles, wave1Enemies, j);
+        for (let j = 0; j < enemies.length; j++) {
+            enemies[j].renderer.update(elapsedTime, enemies[j].enemy, projectiles, enemies, j);
         }
 
         for (let i = 0; i < particles.length; i++) {
@@ -44,8 +45,6 @@ MyGame.screens['game-play'] = (function(game, input) {
 
     function render() {
         backgroundImg.render();
-        highscoreHeader.draw();
-        highscoreValue.draw();
 
         // Render player attributes
         player.render();
@@ -55,13 +54,18 @@ MyGame.screens['game-play'] = (function(game, input) {
             projectiles[i].render();
         }
 
-        for (let i = 0; i < wave1Enemies.length; i++) {
-            wave1Enemies[i].renderer.render(wave1Enemies[i].enemy);
+        // Render Enemies
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].renderer.render(enemies[i].enemy);
         }
 
+        // Render Particles
         for (let i = 0; i < particles.length; i++) {
             particles[i].renderFire.render();
         }
+
+        highscoreHeader.draw();
+        highscoreValue.draw();
     }
 
     function gameLoop(time) {
@@ -80,11 +84,12 @@ MyGame.screens['game-play'] = (function(game, input) {
     function initialize() {
         backgroundImg = MyGame.assetCreator.getBackgroundImage();
         player = MyGame.assetCreator.getPlayer();
-        wave1Enemies = [];
+        enemies = [];
 
         projectiles = [];
+        highscores = JSON.parse(localStorage.getItem("highScores")).sort();
         highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
-        highscoreValue = MyGame.assetCreator.drawHighscoreValue();
+        highscoreValue = MyGame.assetCreator.drawHighscoreValue(highscores[0]);
 
         let line = {
             points: [
@@ -105,7 +110,7 @@ MyGame.screens['game-play'] = (function(game, input) {
             size: { x: 40, y: 40 },       // Size in pixels
             center: { x: line.points[0].x, y: line.points[0].y },
             rotation: 0,
-            moveRate: 200 / 1000,         // Pixels per second
+            moveRate: 250 / 1000,         // Pixels per second
             rotateRate: Math.PI / 1000,    // Radians per second,
             path: line,
             pathIndex: 0
@@ -120,7 +125,7 @@ MyGame.screens['game-play'] = (function(game, input) {
             enemy: enemy,
             renderer: enemyRenderer
         }
-        wave1Enemies.push(enemyObject);
+        enemies.push(enemyObject);
 
         myKeyboard.register('Escape', function() {
             //

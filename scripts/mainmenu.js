@@ -2,7 +2,7 @@ MyGame.screens['main-menu'] = (function(game) {
     'use strict';
     let lastTimeStamp = performance.now();
     let cancelNextRequest = true;
-    let highScores = [];
+    let highScores = [0, 0, 0, 0];
     let config = {moveLeft: "a", moveRight: "ArrowRight", shootMissle: " "};
     
     function initialize() {

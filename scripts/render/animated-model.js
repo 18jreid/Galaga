@@ -47,6 +47,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                     if ((projectiles[i].center.y) < (wave1Enemies[j].enemy.ship.center.y) + (wave1Enemies[j].enemy.ship.size.y / 2)) {
                         if ((projectiles[i].center.y) + (projectiles[i].size.height / 2) > (wave1Enemies[j].enemy.ship.center.y) - (wave1Enemies[j].enemy.ship.size.y / 2)) {
                             MyGame.screens['game-play'].createExplosion(wave1Enemies[j].enemy.ship.center.x, wave1Enemies[j].enemy.ship.center.y);
+                            document.getElementById('alien-death-sound').play();
                             wave1Enemies.splice(j, 1);
                             projectiles.splice(i, 1);
                         }
@@ -64,6 +65,9 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     }
 
     function updateShip(ship, elapsedTime) {
+        if (ship.pathIndex === 0) {
+            document.getElementById('alien-flying-sound').play();
+        }
         if (ship.pathIndex < ship.path.points.length - 1) {
             // Compute distance traveled
             let distTraveled = ship.moveRate * elapsedTime;

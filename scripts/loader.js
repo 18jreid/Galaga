@@ -78,6 +78,18 @@ MyGame.loader = (function () {
         {
             key: 'fire',
             source: "assets/fire.png"
+        },
+        {
+            key: 'smoke',
+            source: "assets/smoke-2.png"
+        },
+        {
+            key: 'alienFlying',
+            source: "assets/alienFlying.mp3"
+        },
+        {
+            key: 'alienDeath',
+            source: "assets/alienDeath.mp3"
         }
     ]
 
