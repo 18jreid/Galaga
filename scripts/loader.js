@@ -17,11 +17,13 @@ MyGame.loader = (function () {
                 "scripts/input-keyboard.js",
                 "scripts/game.js",
                 "scripts/mainmenu.js",
+                "scripts/enemy.js",
+                "scripts/render/animated-model.js",
                 "scripts/render/core.js",
                 "scripts/gameplay.js",
                 "scripts/highscores.js",
                 "scripts/help.js",
-                "scripts/about.js"
+                "scripts/about.js",
             ],
             message: "Scripts loaded",
             onComplete: null
@@ -65,7 +67,15 @@ MyGame.loader = (function () {
         {
             key: 'enemy1',
             source: "assets/enemy1.png"
-        }
+        },
+        {
+            key: 'birdSpriteSheet',
+            source: "assets/spritesheet-bird.png"
+        },
+        {
+            key: 'enemyOneSpritesheet',
+            source: "assets/enemyOneSpritesheet.png"
+        },
     ]
 
     // Loads in an asset into asset objects

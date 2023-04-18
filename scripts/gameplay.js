@@ -7,8 +7,8 @@ MyGame.screens['game-play'] = (function(game, input) {
     // Create Assets
     let backgroundImg;
     let player;
-    let enemies = [];
     let projectiles = [];
+    let wave1Enemies = [];
     let highscoreHeader;
     let highscoreValue;
 
@@ -26,6 +26,10 @@ MyGame.screens['game-play'] = (function(game, input) {
                 projectiles.splice(i, 1);
             }
         }
+
+        for (let i = 0; i < wave1Enemies.length; i++) {
+            wave1Enemies[i].renderer.update(elapsedTime);
+        }
     }
 
     function render() {
@@ -41,9 +45,8 @@ MyGame.screens['game-play'] = (function(game, input) {
             projectiles[i].render();
         }
 
-        // Render test enemies
-        for (let i = 0; i < enemies.length; i++) {
-            enemies[i].render();
+        for (let i = 0; i < wave1Enemies.length; i++) {
+            wave1Enemies[i].renderer.render(wave1Enemies[i].enemy);
         }
     }
 
@@ -64,20 +67,32 @@ MyGame.screens['game-play'] = (function(game, input) {
         backgroundImg = MyGame.assetCreator.getBackgroundImage();
         player = MyGame.assetCreator.getPlayer();
 
-        // Generate test enemies
-        let xOffset = 50;
-        let yOffset = (MyGame.graphics.canvas.height / 4);
-        
-        for (let i = 0; i < 10; i++) {
-            let enemy = MyGame.assetCreator.getEnemy1(xOffset, yOffset);
-            xOffset += 20;
-            yOffset += 30;
-            enemies.push(enemy);
-        }
-
         projectiles = [];
         highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
         highscoreValue = MyGame.assetCreator.drawHighscoreValue();
+
+        for (let x = 0; x < 15; x++) {
+            for (let y = 0; y < 5; y++) {
+                let enemy = MyGame.objects.Enemy({
+                    size: { x: 30, y: 30 },       // Size in pixels
+                    center: { x: 50 + (x * 46), y: 150 + (y * 50) },
+                    rotation: 0,
+                    moveRate: 125 / 1000,         // Pixels per second
+                    rotateRate: Math.PI / 1000    // Radians per second
+                });
+                let enemyRenderer = MyGame.render.AnimatedModel({
+                    spriteSheet: 'assets/enemyOneSpritesheet.png',
+                    spriteCount: 2,
+                    spriteTime: [400, 400],   // ms per frame
+                }, MyGame.graphics);
+
+                let enemyObject = {
+                    enemy: enemy,
+                    renderer: enemyRenderer
+                }
+                wave1Enemies.push(enemyObject);
+            }
+        }
 
         // myKeyboard.register('Escape', function() {
         //     //
