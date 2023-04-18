@@ -28,7 +28,7 @@ MyGame.screens['game-play'] = (function(game, input) {
         }
 
         for (let i = 0; i < wave1Enemies.length; i++) {
-            wave1Enemies[i].renderer.update(elapsedTime);
+            wave1Enemies[i].renderer.update(elapsedTime, wave1Enemies[i].enemy);
         }
     }
 
@@ -71,37 +71,49 @@ MyGame.screens['game-play'] = (function(game, input) {
         highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
         highscoreValue = MyGame.assetCreator.drawHighscoreValue();
 
-        for (let x = 0; x < 15; x++) {
-            for (let y = 0; y < 5; y++) {
-                let enemy = MyGame.objects.Enemy({
-                    size: { x: 40, y: 40 },       // Size in pixels
-                    center: { x: 50 + (x * 46), y: 150 + (y * 50) },
-                    rotation: 0,
-                    moveRate: 125 / 1000,         // Pixels per second
-                    rotateRate: Math.PI / 1000    // Radians per second
-                });
-                let enemyRenderer = MyGame.render.AnimatedModel({
-                    spriteSheet: 'assets/enemyOneSpritesheet.png',
-                    spriteCount: 2,
-                    spriteTime: [500, 500],   // ms per frame
-                }, MyGame.graphics);
+        let line = {
+            points: [
+                { x: 800, y: -100 },
+                { x: 110, y: 600 },
+                { x: 115, y: 650 },
+                { x: 120, y: 660 },
+                { x: 125, y: 665 },
+                { x: 130, y: 660 },
+                { x: 135, y: 650 },
+                { x: 145, y: 600 },
+                { x: 190, y: 500 }
+            ]
+        };
 
-                let enemyObject = {
-                    enemy: enemy,
-                    renderer: enemyRenderer
-                }
-                wave1Enemies.push(enemyObject);
-            }
+        let enemy = MyGame.objects.Enemy({
+            size: { x: 40, y: 40 },       // Size in pixels
+            center: { x: line.points[0].x, y: line.points[0].y },
+            rotation: 0,
+            moveRate: 200 / 1000,         // Pixels per second
+            rotateRate: Math.PI / 1000,    // Radians per second,
+            path: line,
+            pathIndex: 0
+        });
+        let enemyRenderer = MyGame.render.AnimatedModel({
+            spriteSheet: 'assets/enemyOneSpritesheet.png',
+            spriteCount: 2,
+            spriteTime: [500, 500],   // ms per frame
+        }, MyGame.graphics);
+
+        let enemyObject = {
+            enemy: enemy,
+            renderer: enemyRenderer
         }
+        wave1Enemies.push(enemyObject);
 
-        // myKeyboard.register('Escape', function() {
-        //     //
-        //     // Stop the game loop by canceling the request for the next animation frame
-        //     cancelNextRequest = true;
-        //     //
-        //     // Then, return to the main menu
-        //     game.showScreen('main-menu');
-        // });
+        myKeyboard.register('Escape', function() {
+            //
+            // Stop the game loop by canceling the request for the next animation frame
+            cancelNextRequest = true;
+            //
+            // Then, return to the main menu
+            game.showScreen('main-menu');
+        });
 
         let config = MyGame.screens["main-menu"].getConfig();
         myKeyboard.register(config.moveLeft, player.moveLeft);

@@ -25,7 +25,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     // Update the state of the animation
     //
     //------------------------------------------------------------------
-    function update(elapsedTime) {
+    function update(elapsedTime, ship) {
         animationTime += elapsedTime;
         //
         // Check to see if we should update the animation frame
@@ -38,6 +38,50 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
             //
             // Wrap around from the last back to the first sprite as needed
             subImageIndex = subImageIndex % spec.spriteCount;
+        }
+        updateShip(ship.ship, elapsedTime)
+    }
+
+    function computeDistance(pt1x, pt1y, pt2x, pt2y) {
+        let dx2 = Math.pow(pt2x - pt1x, 2);
+        let dy2 = Math.pow(pt2y - pt1y, 2);
+
+        return Math.sqrt(dx2 + dy2);
+    }
+
+    function updateShip(ship, elapsedTime) {
+        if (ship.pathIndex < ship.path.points.length - 1) {
+            // Compute distance traveled
+            let distTraveled = ship.moveRate * elapsedTime;
+
+            // Compute remaining distance on the current line segment
+            let distRemaining = computeDistance(ship.center.x, ship.center.y, ship.path.points[ship.pathIndex + 1].x, ship.path.points[ship.pathIndex + 1].y);
+            
+            if (distTraveled > distRemaining) {
+                distTraveled -= distRemaining;
+                // Move the ship to the end of the current line segment
+                ship.center.x = ship.path.points[ship.pathIndex + 1].x;
+                ship.center.y = ship.path.points[ship.pathIndex + 1].y;
+
+                ship.pathIndex += 1;
+            }
+
+            if (ship.pathIndex < ship.path.points.length - 1) {
+                // Now, handle the distance along the current line segment
+                // Start by computing the direction vector of the line
+                let dirX = ship.path.points[ship.pathIndex + 1].x - ship.center.x;
+                let dirY = ship.path.points[ship.pathIndex + 1].y - ship.center.y;
+                // Normalize the vector
+                let dirMag = Math.sqrt(dirX * dirX + dirY * dirY);
+                dirX /= dirMag;
+                dirY /= dirMag;
+                // See how far along that vector the ship moved
+                let moveX = distTraveled * dirX;
+                let moveY = distTraveled * dirY;
+                // Update the ship position with the movement distance
+                ship.center.x += moveX;
+                ship.center.y += moveY;
+            }
         }
     }
 

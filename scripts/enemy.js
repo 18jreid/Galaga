@@ -31,6 +31,8 @@ MyGame.objects.Enemy = function(spec) {
 
     let api = {
         get size() { return spec.size; },
+        get path() { return spec.path; },
+        get ship() { return spec },
         get center() { return spec.center; },
         get rotation() { return spec.rotation; },
         moveForward: moveForward,
