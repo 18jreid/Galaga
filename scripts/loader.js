@@ -13,17 +13,20 @@ MyGame.loader = (function () {
     let myScripts = [
         {
             scripts: [
+                "scripts/systems/particle-system.js",
+                "scripts/render/particle-system.js",
                 "scripts/render/assets.js",
                 "scripts/input-keyboard.js",
                 "scripts/game.js",
                 "scripts/mainmenu.js",
                 "scripts/enemy.js",
                 "scripts/render/animated-model.js",
+                "scripts/random.js",
                 "scripts/render/core.js",
                 "scripts/gameplay.js",
                 "scripts/highscores.js",
                 "scripts/help.js",
-                "scripts/about.js",
+                "scripts/about.js"
             ],
             message: "Scripts loaded",
             onComplete: null
@@ -69,13 +72,13 @@ MyGame.loader = (function () {
             source: "assets/enemy1.png"
         },
         {
-            key: 'birdSpriteSheet',
-            source: "assets/spritesheet-bird.png"
-        },
-        {
             key: 'enemyOneSpritesheet',
             source: "assets/enemyOneSpritesheet.png"
         },
+        {
+            key: 'fire',
+            source: "assets/fire.png"
+        }
     ]
 
     // Loads in an asset into asset objects

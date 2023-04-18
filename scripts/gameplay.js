@@ -9,6 +9,7 @@ MyGame.screens['game-play'] = (function(game, input) {
     let player;
     let projectiles = [];
     let wave1Enemies = [];
+    let particles = [];
     let highscoreHeader;
     let highscoreValue;
 
@@ -30,6 +31,15 @@ MyGame.screens['game-play'] = (function(game, input) {
         for (let j = 0; j < wave1Enemies.length; j++) {
             wave1Enemies[j].renderer.update(elapsedTime, wave1Enemies[j].enemy, projectiles, wave1Enemies, j);
         }
+
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].particlesFire.update(elapsedTime);
+            particles[i].lifeTime += elapsedTime;
+
+            if (particles[i].lifeTime >= 5000) {
+                particles.splice(i, 1);
+            }
+        }
     }
 
     function render() {
@@ -47,6 +57,10 @@ MyGame.screens['game-play'] = (function(game, input) {
 
         for (let i = 0; i < wave1Enemies.length; i++) {
             wave1Enemies[i].renderer.render(wave1Enemies[i].enemy);
+        }
+
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].renderFire.render();
         }
     }
 
@@ -82,7 +96,8 @@ MyGame.screens['game-play'] = (function(game, input) {
                 { x: 130, y: 660 },
                 { x: 135, y: 650 },
                 { x: 145, y: 600 },
-                { x: 190, y: 500 }
+                { x: 190, y: 500 },
+                {x: 700, y: 50}
             ]
         };
 
@@ -132,10 +147,25 @@ MyGame.screens['game-play'] = (function(game, input) {
         projectiles.push(bullet);
     }
 
+    function createExplosion(x, y) {
+        let particlesFire = MyGame.SystemParticleSystem.createParticle({
+            center: { x: x, y: y },
+            size: { mean: 8, stdev: 2 },
+            speed: { mean: 15, stdev: 6 },
+            lifetime: { mean: 1.5, stdev: 0.3 },
+        },
+        MyGame.graphics);
+    
+        let renderFire = MyGame.RenderParticleSystem.createRenderer(particlesFire, MyGame.graphics, 'assets/fire.png');
+        
+        particles.push({particlesFire: particlesFire, renderFire : renderFire, lifeTime: 0});
+    }
+
     return {
         initialize : initialize,
         run : run,
-        addProjectile : addProjectile
+        addProjectile : addProjectile,
+        createExplosion : createExplosion
     };
 
 }(MyGame.game, MyGame.input));

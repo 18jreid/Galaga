@@ -137,10 +137,27 @@ MyGame.graphics = (function() {
         context.restore();
     }
 
+    function drawParticleTexture(image, center, rotation, size) {
+        context.save();
+
+        context.translate(center.x, center.y);
+        context.rotate(rotation);
+        context.translate(-center.x, -center.y);
+
+        context.drawImage(
+            image,
+            center.x - size.x / 2,
+            center.y - size.y / 2,
+            size.x, size.y);
+
+        context.restore();
+    }
+
     let api = {
         get canvas() { return canvas; },
         clear: clear,
         drawTexture: drawTexture,
+        drawParticleTexture : drawParticleTexture,
         drawText: drawText,
         Text : Text,
         drawSubTexture : drawSubTexture
