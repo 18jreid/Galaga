@@ -2,17 +2,30 @@ MyGame.screens['main-menu'] = (function(game) {
     'use strict';
     let lastTimeStamp = performance.now();
     let cancelNextRequest = true;
-    let player;
+    let highScores = [];
+    let config = {moveLeft: "a", moveRight: "ArrowRight", shootMissle: " "};
     
     function initialize() {
-        player = MyGame.assetCreator.getPlayer();
-        //
+        // Get high scores and configuration for controls
+        if (localStorage.getItem("highScores") !== null) {
+            highScores = JSON.parse(localStorage.getItem("highScores"));
+        } else {
+            localStorage.setItem("highScores", JSON.stringify(highScores));
+        }
+
+        if (localStorage.getItem("config") !== null) {
+            config = JSON.parse(localStorage.getItem("config"));
+        } else {
+            localStorage.setItem("config", JSON.stringify(config));
+        }
+
         // Setup each of menu events for the screens
         document.getElementById('id-new-game').addEventListener(
             'click',
             function() {
                 let sound = document.getElementById("button-select-sound");
                 sound.play();
+                MyGame.screens['game-play'].initialize();
                 game.showScreen('game-play');
                 cancelNextRequest = true;
         });
@@ -46,7 +59,6 @@ MyGame.screens['main-menu'] = (function(game) {
     }
 
     function render() {
-        player.render();
     }
 
     function gameLoop(time) {
@@ -61,6 +73,14 @@ MyGame.screens['main-menu'] = (function(game) {
         }
     }
 
+    function getConfig() {
+        return config;
+    }
+
+    function setConfig(newConfig) {
+        config = newConfig;
+    }
+
     function run() {
         lastTimeStamp = performance.now();
         cancelNextRequest = false;
@@ -69,6 +89,8 @@ MyGame.screens['main-menu'] = (function(game) {
     
     return {
         initialize : initialize,
-        run : run
+        run : run,
+        getConfig : getConfig,
+        setConfig : setConfig
     };
 }(MyGame.game));

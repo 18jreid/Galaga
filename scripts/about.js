@@ -4,7 +4,11 @@ MyGame.screens['about'] = (function(game) {
     function initialize() {
         document.getElementById('id-about-back').addEventListener(
             'click',
-            function() { game.showScreen('main-menu'); });
+            function() {
+                let sound = document.getElementById("button-select-sound");
+                sound.play();
+                game.showScreen('main-menu');
+            });
     }
     
     function run() {

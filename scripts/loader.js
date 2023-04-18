@@ -21,7 +21,7 @@ MyGame.loader = (function () {
                 "scripts/gameplay.js",
                 "scripts/highscores.js",
                 "scripts/help.js",
-                "scripts/about.js",
+                "scripts/about.js"
             ],
             message: "Scripts loaded",
             onComplete: null
@@ -61,6 +61,10 @@ MyGame.loader = (function () {
         {
             key: 'player-shot-sound',
             source: "assets/player-shot.mp3"
+        },
+        {
+            key: 'enemy1',
+            source: "assets/enemy1.png"
         }
     ]
 

@@ -112,3 +112,29 @@ ul.menu li button:hover {
     color: white;
     padding-top: 33vh;
 }
+
+#buttonInput {
+    font-family: 'Turret Road', cursive;
+    display: inline-flex;
+    width: 30%;
+    height: 100%;
+    border-radius: 0%;
+    font-size: .75em;
+}
+
+#set-button {
+    font-family: 'Turret Road', cursive;
+    font-size: 0.6em;
+    color: white;
+    width: 10em;
+    height: 1.5em;
+    background: green;
+    border: 0.1em solid green;
+    border-radius: 0.5em;
+    box-shadow: 0.2em 0.2em 0.3em rgb(0, 0, 0);
+}
+
+#set-button:hover {
+    background: darkgreen;
+    border: 0.1em solid darkgreen;
+}

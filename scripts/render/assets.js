@@ -163,11 +163,49 @@ MyGame.assetCreator = (function() {
 
         return highscoreValue;
     }
+
+    function getEnemy1(x, y) {
+        // Define player image
+        let enemy = new Image();
+        enemy.isReady = false;
+        enemy.src = MyGame.assets['enemy1'].src;
+        enemy.onload = function () {
+            this.isReady = true;
+        };
+        // Define player attributes
+        enemy.center = {x: x, y: y };
+        enemy.size = {width: enemy.width * 2, height: enemy.height * 2};
+        enemy.moveRate = 0.25;
+        enemy.rotation = (180) * Math.PI / 180;
+
+        enemy.moveForward = function (elapsedTime) {
+                //
+                // Create a normalized direction vector
+                let vectorX = Math.cos(enemy.rotation);
+                let vectorY = Math.sin(enemy.rotation);
+                //
+                // With the normalized direction vector, move the center of the sprite
+                enemy.center.x += (vectorX * enemy.moveRate * elapsedTime);
+                enemy.center.y += (vectorY * enemy.moveRate * elapsedTime);
+        }
+
+        // Define player functions
+        enemy.render = function() {
+            MyGame.graphics.drawTexture(
+                enemy,
+                { x: enemy.center.x, y: enemy.center.y },
+                enemy.rotation,
+                { width: enemy.size.width, height: enemy.size.height });
+        };
+
+        return enemy;
+    }
     
     return {
         getBackgroundImage: getBackgroundImage,
         getPlayer : getPlayer,
         drawHighscoreHeader : drawHighscoreHeader,
-        drawHighscoreValue : drawHighscoreValue
+        drawHighscoreValue : drawHighscoreValue,
+        getEnemy1: getEnemy1
     };
 }());

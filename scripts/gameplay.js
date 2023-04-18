@@ -7,6 +7,7 @@ MyGame.screens['game-play'] = (function(game, input) {
     // Create Assets
     let backgroundImg;
     let player;
+    let enemies = [];
     let projectiles = [];
     let highscoreHeader;
     let highscoreValue;
@@ -39,6 +40,11 @@ MyGame.screens['game-play'] = (function(game, input) {
         for (let i = 0; i < projectiles.length; i++) {
             projectiles[i].render();
         }
+
+        // Render test enemies
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].render();
+        }
     }
 
     function gameLoop(time) {
@@ -57,6 +63,18 @@ MyGame.screens['game-play'] = (function(game, input) {
     function initialize() {
         backgroundImg = MyGame.assetCreator.getBackgroundImage();
         player = MyGame.assetCreator.getPlayer();
+
+        // Generate test enemies
+        let xOffset = 50;
+        let yOffset = (MyGame.graphics.canvas.height / 4);
+        
+        for (let i = 0; i < 10; i++) {
+            let enemy = MyGame.assetCreator.getEnemy1(xOffset, yOffset);
+            xOffset += 20;
+            yOffset += 30;
+            enemies.push(enemy);
+        }
+
         projectiles = [];
         highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
         highscoreValue = MyGame.assetCreator.drawHighscoreValue();
@@ -70,9 +88,10 @@ MyGame.screens['game-play'] = (function(game, input) {
         //     game.showScreen('main-menu');
         // });
 
-        myKeyboard.register('ArrowLeft', player.moveLeft);
-        myKeyboard.register('ArrowRight', player.moveRight)
-        myKeyboard.register(' ', player.fireBullet);
+        let config = MyGame.screens["main-menu"].getConfig();
+        myKeyboard.register(config.moveLeft, player.moveLeft);
+        myKeyboard.register(config.moveRight, player.moveRight)
+        myKeyboard.register(config.shootMissle, player.fireBullet);
     }
 
     function run() {
