@@ -43,6 +43,7 @@ MyGame.screens['game-play'] = (function(game, input) {
             }
         }
 
+
         waveCreator.update(elapsedTime, enemies);
     }
 

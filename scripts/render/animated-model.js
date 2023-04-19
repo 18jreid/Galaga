@@ -11,6 +11,8 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     let subTextureWidth = 0;
     let image = new Image();
     let isReady = false;  // Can't render until the texture is loaded
+    let moveRate = 0.12;
+    let pathFinished = false;
 
     //
     // Load he texture to use for the particle system loading and ready for rendering
@@ -42,6 +44,16 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
         }
         if (ship.totalTime >= ship.moveTime) {
             updateShip(ship.ship, elapsedTime);
+        }
+
+        if (pathFinished) {
+            ship.ship.center.x += elapsedTime * moveRate;
+            if (ship.ship.center.x >= ((MyGame.graphics.canvas.width / 2) + MyGame.graphics.canvas.width / 3)) {
+                moveRate = -moveRate;
+            }
+            if (ship.ship.center.x <=((MyGame.graphics.canvas.width / 2) - MyGame.graphics.canvas.width / 3)) {
+                moveRate = -moveRate;
+            }
         }
 
         for (let i = 0; i < projectiles.length; i++) {
@@ -107,6 +119,8 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                 ship.center.x += moveX;
                 ship.center.y += moveY;
             }
+        } else {
+            pathFinished = true;
         }
     }
 

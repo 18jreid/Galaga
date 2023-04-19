@@ -1,7 +1,7 @@
 MyGame.WaveCreator = (function() {
     let totalTime  = 0;
     let shootTime = 0;
-    let randomShoot = Random.nextRange(3, 8) * 1000;
+    let randomShoot = Random.nextRange(5, 8) * 1000;
     let stage = "stage1";
     let showingStage1Logo = true;
     let showStage2Logo = false;
@@ -162,7 +162,7 @@ MyGame.WaveCreator = (function() {
                         enemies.splice(randIndex, 1);
                     }
         
-                    randomShoot = Random.nextRange(3, 6) * 1000;
+                    randomShoot = Random.nextRange(4, 7) * 1000;
                     shootTime = 0;
 
                     if (enemies.length === 0) {
