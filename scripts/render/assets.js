@@ -164,6 +164,19 @@ MyGame.assetCreator = (function() {
         return highscoreValue;
     }
 
+    function drawStage1Header() {
+        let highscoreHeader = MyGame.graphics.Text({
+            text : 'Stage 1',
+            font : '30px Turret Road',
+            fill : 'White',
+            stroke : 'White',
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 70 , y : MyGame.graphics.canvas.height / 2},
+            rotation : 0
+        });
+
+        return highscoreHeader;
+    }
+
     function getEnemy1(x, y) {
         // Define player image
         let enemy = new Image();
@@ -206,6 +219,7 @@ MyGame.assetCreator = (function() {
         getPlayer : getPlayer,
         drawHighscoreHeader : drawHighscoreHeader,
         drawHighscoreValue : drawHighscoreValue,
-        getEnemy1: getEnemy1
+        getEnemy1: getEnemy1,
+        drawStage1Header : drawStage1Header
     };
 }());

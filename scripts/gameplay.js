@@ -13,6 +13,7 @@ MyGame.screens['game-play'] = (function(game, input) {
     let highscores = [];
     let highscoreHeader;
     let highscoreValue;
+    let waveCreator;
 
     let myKeyboard = input.Keyboard();
 
@@ -41,6 +42,8 @@ MyGame.screens['game-play'] = (function(game, input) {
                 particles.splice(i, 1);
             }
         }
+
+        waveCreator.update(elapsedTime, enemies);
     }
 
     function render() {
@@ -66,6 +69,7 @@ MyGame.screens['game-play'] = (function(game, input) {
 
         highscoreHeader.draw();
         highscoreValue.draw();
+        waveCreator.render();
     }
 
     function gameLoop(time) {
@@ -85,7 +89,7 @@ MyGame.screens['game-play'] = (function(game, input) {
         backgroundImg = MyGame.assetCreator.getBackgroundImage();
         player = MyGame.assetCreator.getPlayer();
         enemies = [];
-        MyGame.WaveCreator.createWave1(enemies);
+        waveCreator = MyGame.WaveCreator;
 
         projectiles = [];
         highscores = JSON.parse(localStorage.getItem("highScores")).sort();
@@ -131,11 +135,16 @@ MyGame.screens['game-play'] = (function(game, input) {
         particles.push({particlesFire: particlesFire, renderFire : renderFire, lifeTime: 0});
     }
 
+    function getEnemies() {
+        return enemies;
+    }
+
     return {
         initialize : initialize,
         run : run,
         addProjectile : addProjectile,
-        createExplosion : createExplosion
+        createExplosion : createExplosion,
+        getEnemies : getEnemies
     };
 
 }(MyGame.game, MyGame.input));
