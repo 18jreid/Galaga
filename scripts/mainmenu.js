@@ -27,7 +27,6 @@ MyGame.screens['main-menu'] = (function(game) {
                 sound.play();
                 MyGame.screens['game-play'].initialize();
                 game.showScreen('game-play');
-                MyGame.WaveCreator.initialize();
                 cancelNextRequest = true;
         });
         

@@ -2,10 +2,14 @@ MyGame.WaveCreator = (function() {
     let totalTime  = 0;
     let shootTime = 0;
     let randomShoot = Random.nextRange(3, 8) * 1000;
+    let stage = "stage1";
     let showingStage1Logo = true;
+    let showStage2Logo = false;
     let stage1Header = MyGame.assetCreator.drawStage1Header();
+    let stage2Header = MyGame.assetCreator.drawStage2Header();
 
     function createWave1(enemies) {
+        let rotation = (180 * Math.PI) / 180
         if (!showingStage1Logo) {
             let moveTimeIncrement = 0;
             for (let x = 0; x < 2; x++) {
@@ -26,8 +30,8 @@ MyGame.WaveCreator = (function() {
                     let enemy = MyGame.objects.Enemy({
                         size: { x: 40, y: 40 },       // Size in pixels
                         center: { x: line.points[0].x, y: line.points[0].y },
-                        rotation: 0,
-                        moveRate: 400 / 1000,         // Pixels per second
+                        rotation: rotation,
+                        moveRate: 500 / 1000,         // Pixels per second
                         rotateRate: Math.PI / 1000,    // Radians per second,
                         path: line,
                         pathIndex: 0,
@@ -68,8 +72,8 @@ MyGame.WaveCreator = (function() {
                     let enemy = MyGame.objects.Enemy({
                         size: { x: 40, y: 40 },       // Size in pixels
                         center: { x: line.points[0].x, y: line.points[0].y },
-                        rotation: 0,
-                        moveRate: 400 / 1000,         // Pixels per second
+                        rotation: rotation,
+                        moveRate: 500 / 1000,         // Pixels per second
                         rotateRate: Math.PI / 1000,    // Radians per second,
                         path: line,
                         pathIndex: 0,
@@ -114,8 +118,8 @@ MyGame.WaveCreator = (function() {
         newEnemy = MyGame.objects.Enemy({
             size: { x: 40, y: 40 },       // Size in pixels
             center: { x: enemy.enemy.ship.center.x, y: enemy.enemy.ship.center.y },
-            rotation: 0,
-            moveRate: 400 / 1000,         // Pixels per second
+            rotation: (180 * Math.PI) / 180,
+            moveRate: 500 / 1000,         // Pixels per second
             rotateRate: Math.PI / 1000,    // Radians per second,
             path: line,
             pathIndex: 0,
@@ -137,38 +141,44 @@ MyGame.WaveCreator = (function() {
 
     function update(elapsedTime, enemies) {
         totalTime += elapsedTime;
-        if (!showingStage1Logo) {
-            shootTime += elapsedTime;
-            if (shootTime > randomShoot) {
-                let enemies = MyGame.screens['game-play'].getEnemies();
-    
-                for (let i = 0; i < enemies.length; i++) {
-                    if (enemies[i].enemy.ship.center.y < -500 || enemies[i].enemy.ship.center.y > 1500) {
-                        enemies.splice(i, 1)
-                    }
-                }
-                if (enemies.length  !== 0) {
-                    let randIndex = Random.nextRange(0, enemies.length - 1);
-                    let randomEnemy = enemies[randIndex];
-                    enemyAttack(randomEnemy, enemies);
-                    enemies.splice(randIndex, 1);
-                }
-    
-                randomShoot = Random.nextRange(1, 4) * 1000;
-                shootTime = 0;
-            }
-        } else {
-            if (totalTime >= 4000) {
+        if (stage === "stage1") {
+            if (totalTime >= 4000 && showingStage1Logo) {
                 showingStage1Logo = false;
                 createWave1(enemies);
+            } else {
+                shootTime += elapsedTime;
+                if (shootTime > randomShoot) {
+                    let enemies = MyGame.screens['game-play'].getEnemies();
+        
+                    for (let i = 0; i < enemies.length; i++) {
+                        if (enemies[i].enemy.ship.center.y < -500 || enemies[i].enemy.ship.center.y > 1500) {
+                            enemies.splice(i, 1)
+                        }
+                    }
+                    if (enemies.length  !== 0) {
+                        let randIndex = Random.nextRange(0, enemies.length - 1);
+                        let randomEnemy = enemies[randIndex];
+                        enemyAttack(randomEnemy, enemies);
+                        enemies.splice(randIndex, 1);
+                    }
+        
+                    randomShoot = Random.nextRange(3, 6) * 1000;
+                    shootTime = 0;
+
+                    if (enemies.length === 0) {
+                        stage = "stage2";
+                        showStage2Logo = true;
+                    }
+                }
             }
         }
-        console.log(totalTime)
     }
 
     function render() {
         if (showingStage1Logo) {
             stage1Header.draw();
+        } else if (showStage2Logo) {
+            stage2Header.draw();
         }
     }
 
