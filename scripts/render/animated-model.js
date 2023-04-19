@@ -49,10 +49,14 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                 if ((projectiles[i].center.x - (projectiles[i].size.width / 2)) < (wave1Enemies[j].enemy.ship.center.x + (wave1Enemies[j].enemy.ship.size.x / 2))) {
                     if ((projectiles[i].center.y) < (wave1Enemies[j].enemy.ship.center.y) + (wave1Enemies[j].enemy.ship.size.y / 2)) {
                         if ((projectiles[i].center.y) + (projectiles[i].size.height / 2) > (wave1Enemies[j].enemy.ship.center.y) - (wave1Enemies[j].enemy.ship.size.y / 2)) {
+                            let explosionAudio = document.createElement("Audio");
+                            explosionAudio.src = "assets/alienDeath.mp3";
+                            explosionAudio.play();
                             MyGame.screens['game-play'].createExplosion(wave1Enemies[j].enemy.ship.center.x, wave1Enemies[j].enemy.ship.center.y);
-                            document.getElementById('alien-death-sound').play();
+                            
                             wave1Enemies.splice(j, 1);
                             projectiles.splice(i, 1);
+                            explosionAudio.remove();
                         }
                     }
                 }

@@ -91,6 +91,14 @@ MyGame.loader = (function () {
         {
             key: 'alienDeath',
             source: "assets/alienDeath.mp3"
+        },
+        {
+            key: 'enemyTwoSpritesheet',
+            source: "assets/enemyTwoSpritesheet.png"
+        },
+        {
+            key: 'enemyThreeSpritesheet',
+            source: "assets/enemyThreeSpritesheet.png"
         }
     ]
 
