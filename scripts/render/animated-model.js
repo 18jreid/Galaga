@@ -21,6 +21,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
         subTextureWidth = image.width / spec.spriteCount;
     }
     image.src = spec.spriteSheet;
+    spec.pathFinished = pathFinished;
 
     //------------------------------------------------------------------
     //
@@ -46,7 +47,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
             updateShip(ship.ship, elapsedTime);
         }
 
-        if (pathFinished) {
+        if (spec.pathFinished) {
             ship.ship.center.x += elapsedTime * moveRate;
             if (ship.ship.center.x >= ((MyGame.graphics.canvas.width / 2) + MyGame.graphics.canvas.width / 3)) {
                 moveRate = -moveRate;
@@ -61,14 +62,16 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                 if ((projectiles[i].center.x - (projectiles[i].size.width / 2)) < (wave1Enemies[j].enemy.ship.center.x + (wave1Enemies[j].enemy.ship.size.x / 2))) {
                     if ((projectiles[i].center.y) < (wave1Enemies[j].enemy.ship.center.y) + (wave1Enemies[j].enemy.ship.size.y / 2)) {
                         if ((projectiles[i].center.y) + (projectiles[i].size.height / 2) > (wave1Enemies[j].enemy.ship.center.y) - (wave1Enemies[j].enemy.ship.size.y / 2)) {
-                            let explosionAudio = document.createElement("Audio");
-                            explosionAudio.src = "assets/alienDeath.mp3";
-                            explosionAudio.play();
-                            MyGame.screens['game-play'].createExplosion(wave1Enemies[j].enemy.ship.center.x, wave1Enemies[j].enemy.ship.center.y);
-                            
-                            wave1Enemies.splice(j, 1);
-                            projectiles.splice(i, 1);
-                            explosionAudio.remove();
+                            if (projectiles[i].players) {
+                                let explosionAudio = document.createElement("Audio");
+                                explosionAudio.src = "assets/alienDeath.mp3";
+                                explosionAudio.play();
+                                MyGame.screens['game-play'].createExplosion(wave1Enemies[j].enemy.ship.center.x, wave1Enemies[j].enemy.ship.center.y);
+                                
+                                wave1Enemies.splice(j, 1);
+                                projectiles.splice(i, 1);
+                                explosionAudio.remove();
+                            }
                         }
                     }
                 }
@@ -120,7 +123,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                 ship.center.y += moveY;
             }
         } else {
-            pathFinished = true;
+            spec.pathFinished = true;
         }
     }
 

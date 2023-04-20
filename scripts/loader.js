@@ -99,6 +99,10 @@ MyGame.loader = (function () {
         {
             key: 'enemyThreeSpritesheet',
             source: "assets/enemyThreeSpritesheet.png"
+        },
+        {
+            key: 'enemyBullet',
+            source: "assets/enemyBullet.png"
         }
     ]
 

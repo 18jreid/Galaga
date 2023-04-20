@@ -158,8 +158,11 @@ MyGame.WaveCreator = (function() {
                     if (enemies.length  !== 0) {
                         let randIndex = Random.nextRange(0, enemies.length - 1);
                         let randomEnemy = enemies[randIndex];
-                        enemyAttack(randomEnemy, enemies);
-                        enemies.splice(randIndex, 1);
+                        if (randomEnemy.renderer.spec.pathFinished) {
+                            enemyAttack(randomEnemy, enemies);
+                            MyGame.assetCreator.getEnemyBullet(randomEnemy.enemy.ship, elapsedTime);
+                            enemies.splice(randIndex, 1);
+                        }
                     }
         
                     randomShoot = Random.nextRange(4, 7) * 1000;

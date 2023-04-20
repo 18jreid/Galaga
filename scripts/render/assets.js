@@ -118,6 +118,7 @@ MyGame.assetCreator = (function() {
         bullet.size = {width: bullet.width * 2.25, height: bullet.height * 2.25};
         bullet.moveRate = 0.70;
         bullet.rotation = 0;
+        bullet.players = true;
         MyGame.screens['game-play'].addProjectile(bullet);
 
         // Define player functions
@@ -135,6 +136,41 @@ MyGame.assetCreator = (function() {
 
         bullet.update = function() {
             bullet.moveUp();
+        }
+    }
+
+    function getEnemyBullet(enemy, elapsedTime) {
+        // Define enemy image
+        let bullet = new Image();
+        bullet.isReady = false;
+        bullet.src = MyGame.assets['enemyBullet'].src;
+        bullet.onload = function () {
+            this.isReady = true;
+        };
+        // Define enemy attributes
+        bullet.center = {x: enemy.center.x, y: enemy.center.y };
+        bullet.size = {width: bullet.width * 2.25, height: bullet.height * 2.25};
+        bullet.moveRate = 0.70;
+        bullet.rotation = (180 * Math.PI) / 180;
+        bullet.players = false;
+        bullet.elapsedTime = elapsedTime;
+        MyGame.screens['game-play'].addProjectile(bullet);
+
+        // Define enemy functions
+        bullet.render = function() {
+            MyGame.graphics.drawTexture(
+                bullet,
+                { x: bullet.center.x, y: bullet.center.y },
+                0,
+                { width: bullet.size.width, height: bullet.size.height });
+        };
+
+        bullet.moveDown = function() {
+            bullet.center.y += bullet.moveRate * elapsedTime;
+        }
+
+        bullet.update = function() {
+            bullet.moveDown();
         }
     }
 
@@ -234,6 +270,7 @@ MyGame.assetCreator = (function() {
         drawHighscoreValue : drawHighscoreValue,
         getEnemy1: getEnemy1,
         drawStage1Header : drawStage1Header,
-        drawStage2Header : drawStage2Header
+        drawStage2Header : drawStage2Header,
+        getEnemyBullet : getEnemyBullet
     };
 }());
