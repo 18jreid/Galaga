@@ -94,49 +94,53 @@ MyGame.WaveCreator = (function() {
                     moveTimeIncrement += 333;
                 }
             }
+
+            moveTimeIncrement = 4000;
+            for (let x = 0; x < 8; x++) {
+                let line = {
+                    points: [
+                        { x: -10, y: 615},
+                        { x: 315, y: 405},
+                        { x: 327, y: 339},
+                        { x: 285, y: 285},
+                        { x: 211, y: 295},
+                        { x: 181, y: 353},
+                        { x: 207, y: 414},
+                        { x: 264, y: 427},
+                        { x: 327, y: 385},
+                        { x: 250 + (x * 40), y: 105 },
+                    ]
+                };
+
+                let enemy = MyGame.objects.Enemy({
+                    size: { x: 40, y: 40 },       // Size in pixels
+                    center: { x: line.points[0].x, y: line.points[0].y },
+                    rotation: 0,
+                    moveRate: 500 / 1000,         // Pixels per second
+                    rotateRate: Math.PI / 1000,    // Radians per second,
+                    path: line,
+                    pathIndex: 0,
+                    totalTime: 0,
+                    moveTime: moveTimeIncrement
+                });
+                let enemyRenderer = MyGame.render.AnimatedModel({
+                    spriteSheet: 'assets/enemyFourSpritesheet.png',
+                    spriteCount: 2,
+                    spriteTime: [500, 500],   // ms per frame
+                }, MyGame.graphics);
+        
+                let enemyObject = {
+                    enemy: enemy,
+                    renderer: enemyRenderer
+                }
+                enemies.push(enemyObject);
+                moveTimeIncrement += 333;
+            }
         }
     }
 
     function enemyAttack(enemy, enemies) {
-        let x = enemy.enemy.ship.center.x;
-        let y = enemy.enemy.ship.center.y;
-        let line = {
-            points: [
-                { x: x, y: y + 70 },
-                { x: x - 30, y: y + 40 },
-                { x: x - 60, y: y + 15 },
-                { x: x - 50, y: y - 30 },
-                { x: x - 15, y: y - 60},
-                { x: x + 20, y: y - 50},
-                { x: x + 50, y: y - 30},
-                { x: x + 40, y: y},
-                { x: x + 40, y: y + 3000},
-            ]
-        };
-
-        let moveTimeIncrement = 0;
-        newEnemy = MyGame.objects.Enemy({
-            size: { x: 40, y: 40 },       // Size in pixels
-            center: { x: enemy.enemy.ship.center.x, y: enemy.enemy.ship.center.y },
-            rotation: (180 * Math.PI) / 180,
-            moveRate: 500 / 1000,         // Pixels per second
-            rotateRate: Math.PI / 1000,    // Radians per second,
-            path: line,
-            pathIndex: 0,
-            totalTime: 0,
-            moveTime: moveTimeIncrement
-        });
-        let enemyRenderer = MyGame.render.AnimatedModel({
-            spriteSheet: enemy.renderer.spec.spriteSheet,
-            spriteCount: 2,
-            spriteTime: [500, 500],   // ms per frame
-        }, MyGame.graphics);
-
-        let enemyObject = {
-            enemy: newEnemy,
-            renderer: enemyRenderer
-        }
-        enemies.push(enemyObject);
+        enemy.renderer.attack1(enemy.enemy.ship);
     }
 
     function update(elapsedTime, enemies) {
@@ -159,13 +163,11 @@ MyGame.WaveCreator = (function() {
                         let randIndex = Random.nextRange(0, enemies.length - 1);
                         let randomEnemy = enemies[randIndex];
                         if (randomEnemy.renderer.spec.pathFinished) {
-                            enemyAttack(randomEnemy, enemies);
-                            MyGame.assetCreator.getEnemyBullet(randomEnemy.enemy.ship, elapsedTime);
-                            enemies.splice(randIndex, 1);
+                            enemyAttack(randomEnemy, enemies, elapsedTime);
                         }
                     }
         
-                    randomShoot = Random.nextRange(4, 7) * 1000;
+                    randomShoot = Random.nextRange(2, 5) * 1000;
                     shootTime = 0;
 
                     if (enemies.length === 0) {
@@ -185,10 +187,20 @@ MyGame.WaveCreator = (function() {
         }
     }
 
+    function getWaveStage() {
+        return stage;
+    }
+
+    function setWaveStage(stage) {
+        stage = stage;
+    }
+
     let api = {
         update : update,
         createWave1 : createWave1,
-        render : render
+        render : render,
+        getWaveStage : getWaveStage,
+        setWaveStage : setWaveStage
     };
 
     return api;

@@ -3,7 +3,7 @@ MyGame.screens['main-menu'] = (function(game) {
     let lastTimeStamp = performance.now();
     let cancelNextRequest = true;
     let highScores = [0, 0, 0, 0];
-    let config = {moveLeft: "a", moveRight: "ArrowRight", shootMissle: " "};
+    let config = {moveLeft: "ArrowLeft", moveRight: "ArrowRight", shootMissle: " "};
     
     function initialize() {
         // Get high scores and configuration for controls

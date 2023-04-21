@@ -37,7 +37,7 @@ MyGame.assetCreator = (function() {
         player.time = 0;
 
         let xOffset = 25;
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 3; i++) {
             // Define life image
             let life = new Image();
             life.isReady = false;
@@ -114,7 +114,7 @@ MyGame.assetCreator = (function() {
             this.isReady = true;
         };
         // Define player attributes
-        bullet.center = {x: player.center.x, y: player.center.y };
+        bullet.center = {x: player.center.x, y: player.center.y - (bullet.height * 4) };
         bullet.size = {width: bullet.width * 2.25, height: bullet.height * 2.25};
         bullet.moveRate = 0.70;
         bullet.rotation = 0;
@@ -154,6 +154,7 @@ MyGame.assetCreator = (function() {
         bullet.rotation = (180 * Math.PI) / 180;
         bullet.players = false;
         bullet.elapsedTime = elapsedTime;
+        bullet.destroy = false;
         MyGame.screens['game-play'].addProjectile(bullet);
 
         // Define enemy functions
@@ -171,6 +172,25 @@ MyGame.assetCreator = (function() {
 
         bullet.update = function() {
             bullet.moveDown();
+            let player = MyGame.screens['game-play'].getPlayer();
+            let x = player.center.x;
+            let y = player.center.y;
+            let width =  player.size.width;
+            let height = player.size.height;
+
+            if ((bullet.center.x + (bullet.size.width / 2)) > (x - (width / 2))) {
+                if ((bullet.center.x - (bullet.size.width / 2)) < (x + (width / 2))) {
+                    if ((bullet.center.y + (bullet.size.height / 2)) > (y - (height / 2))) {
+                        if ((bullet.center.y - (bullet.size.height / 2)) < (y + (height / 2))) {
+                            if (!bullet.destroy) {
+                                MyGame.screens['game-play'].createExplosion(x, y);
+                                MyGame.screens['game-play'].playerDeath();
+                            }
+                            bullet.destroy = true;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -226,6 +246,32 @@ MyGame.assetCreator = (function() {
         return highscoreHeader;
     }
 
+    function drawLivesLeft() {
+        let livesLeft = MyGame.graphics.Text({
+            text : 'Lives Left: ' + MyGame.screens['game-play'].getPlayer().lives.length,
+            font : '30px Turret Road',
+            fill : 'White',
+            stroke : 'White',
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 70 , y : MyGame.graphics.canvas.height / 2},
+            rotation : 0
+        });
+
+        return livesLeft;
+    }
+
+    function getGameover() {
+        let livesLeft = MyGame.graphics.Text({
+            text : 'Game Over',
+            font : '30px Turret Road',
+            fill : 'Red',
+            stroke : 'Red',
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 70 , y : MyGame.graphics.canvas.height / 2},
+            rotation : 0
+        });
+
+        return livesLeft;
+    }
+
     function getEnemy1(x, y) {
         // Define player image
         let enemy = new Image();
@@ -271,6 +317,8 @@ MyGame.assetCreator = (function() {
         getEnemy1: getEnemy1,
         drawStage1Header : drawStage1Header,
         drawStage2Header : drawStage2Header,
-        getEnemyBullet : getEnemyBullet
+        getEnemyBullet : getEnemyBullet,
+        drawLivesLeft : drawLivesLeft,
+        getGameover : getGameover
     };
 }());

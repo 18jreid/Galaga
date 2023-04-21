@@ -11,8 +11,11 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     let subTextureWidth = 0;
     let image = new Image();
     let isReady = false;  // Can't render until the texture is loaded
-    let moveRate = 0.12;
+    let moveRate = 0.2;
     let pathFinished = false;
+    let x = 0;
+    let y = 0;
+    let attack = true;
 
     //
     // Load he texture to use for the particle system loading and ready for rendering
@@ -29,6 +32,8 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     //
     //------------------------------------------------------------------
     function update(elapsedTime, ship, projectiles, wave1Enemies, j) {
+        x = ship.ship.center.x;
+        y = ship.ship.center.y;
         animationTime += elapsedTime;
         ship.setTotalTime(elapsedTime)
         //
@@ -79,6 +84,23 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
         }
     }
 
+    function attack1(ship) {
+        ship.pathIndex = 0;
+        ship.path = {
+            points: [
+                { x: x, y: y + 70, attack: false },
+                { x: x - 30, y: y + 40, attack: false },
+                { x: x - 60, y: y + 15, attack: true },
+                { x: x - 50, y: y - 30, attack: false },
+                { x: x - 15, y: y - 60, attack: false},
+                { x: x + 20, y: y - 50, attack: false},
+                { x: x + 50, y: y - 30, attack: true},
+                { x: x + 40, y: y, attack: false},
+                { x: x + 40, y: y + 3000, attack: false},
+            ]
+        };
+    }
+
     function computeDistance(pt1x, pt1y, pt2x, pt2y) {
         let dx2 = Math.pow(pt2x - pt1x, 2);
         let dy2 = Math.pow(pt2y - pt1y, 2);
@@ -93,6 +115,15 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
         if (ship.pathIndex < ship.path.points.length - 1) {
             // Compute distance traveled
             let distTraveled = ship.moveRate * elapsedTime;
+            if (ship.path.points[ship.pathIndex + 1].attack) {
+                setTimeout(() => {
+                    attack = true;
+                }, 100);
+                if (attack) {
+                    MyGame.assetCreator.getEnemyBullet(ship, elapsedTime);
+                }
+                attack = false;
+            }
 
             // Compute remaining distance on the current line segment
             let distRemaining = computeDistance(ship.center.x, ship.center.y, ship.path.points[ship.pathIndex + 1].x, ship.path.points[ship.pathIndex + 1].y);
@@ -123,7 +154,9 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                 ship.center.y += moveY;
             }
         } else {
-            spec.pathFinished = true;
+            setTimeout(() => {
+                spec.pathFinished = true;
+            }, 250);
         }
     }
 
@@ -141,7 +174,8 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     let api = {
         update: update,
         render: render,
-        spec : spec
+        spec : spec,
+        attack1 : attack1
     };
 
     return api;

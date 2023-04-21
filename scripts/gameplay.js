@@ -14,6 +14,10 @@ MyGame.screens['game-play'] = (function(game, input) {
     let highscoreHeader;
     let highscoreValue;
     let waveCreator;
+    let playerHit = false;
+    let livesLeftText;
+    let gameOverText;
+    let gameOver = false;
 
     let myKeyboard = input.Keyboard();
 
@@ -22,16 +26,24 @@ MyGame.screens['game-play'] = (function(game, input) {
     }
 
     function update(elapsedTime) {
-        player.update(elapsedTime);
-        for (let i = 0; i < projectiles.length; i++) {
-            projectiles[i].update();
-            if (projectiles[i].center.y < 0) {
-                projectiles.splice(i, 1);
+        if (!playerHit) {
+            player.update(elapsedTime);
+            for (let i = 0; i < projectiles.length; i++) {
+                if (projectiles[i].destroy) {
+                    projectiles.splice(i, 1);
+                } else {
+                    projectiles[i].update();
+                    if (projectiles[i].center.y < 0 || (projectiles[i].center.y > MyGame.graphics.canvas.height)) {
+                        projectiles.splice(i, 1);
+                    }
+                }
             }
-        }
 
-        for (let j = 0; j < enemies.length; j++) {
-            enemies[j].renderer.update(elapsedTime, enemies[j].enemy, projectiles, enemies, j);
+            for (let j = 0; j < enemies.length; j++) {
+                enemies[j].renderer.update(elapsedTime, enemies[j].enemy, projectiles, enemies, j);
+            }
+
+            waveCreator.update(elapsedTime, enemies);
         }
 
         for (let i = 0; i < particles.length; i++) {
@@ -42,35 +54,49 @@ MyGame.screens['game-play'] = (function(game, input) {
                 particles.splice(i, 1);
             }
         }
-
-
-        waveCreator.update(elapsedTime, enemies);
     }
 
     function render() {
         backgroundImg.render();
 
-        // Render player attributes
-        player.render();
+        if (gameOver) {
+            gameOverText.draw();
+        } else {
+            // Render player attributes
+            if (!playerHit) {
+                player.render();
+            } else {
+                livesLeftText = MyGame.assetCreator.drawLivesLeft();
 
-        // Render projectiles
-        for (let i = 0; i < projectiles.length; i++) {
-            projectiles[i].render();
+                if (player.lives.length !== 0) {
+                    livesLeftText.draw();
+                    setTimeout(() => {
+                        playerHit = false;
+                    }, 3000);
+                } else {
+                    gameOver = true;
+                }
+            }
+
+            // Render projectiles
+            for (let i = 0; i < projectiles.length; i++) {
+                projectiles[i].render();
+            }
+
+            // Render Enemies
+            for (let i = 0; i < enemies.length; i++) {
+                enemies[i].renderer.render(enemies[i].enemy);
+            }
+
+            // Render Particles
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].renderFire.render();
+            }
+
+            highscoreHeader.draw();
+            highscoreValue.draw();
+            waveCreator.render();
         }
-
-        // Render Enemies
-        for (let i = 0; i < enemies.length; i++) {
-            enemies[i].renderer.render(enemies[i].enemy);
-        }
-
-        // Render Particles
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].renderFire.render();
-        }
-
-        highscoreHeader.draw();
-        highscoreValue.draw();
-        waveCreator.render();
     }
 
     function gameLoop(time) {
@@ -91,20 +117,23 @@ MyGame.screens['game-play'] = (function(game, input) {
         player = MyGame.assetCreator.getPlayer();
         enemies = [];
         waveCreator = MyGame.WaveCreator;
+        livesLeftText = MyGame.assetCreator.drawLivesLeft();
+        gameOverText = MyGame.assetCreator.getGameover();
 
         projectiles = [];
         highscores = JSON.parse(localStorage.getItem("highScores")).sort();
         highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
         highscoreValue = MyGame.assetCreator.drawHighscoreValue(highscores[0]);
 
-        myKeyboard.register('Escape', function() {
-            //
-            // Stop the game loop by canceling the request for the next animation frame
-            cancelNextRequest = true;
-            //
-            // Then, return to the main menu
-            game.showScreen('main-menu');
-        });
+        // myKeyboard.register('Escape', function() {
+        //     //
+        //     // Stop the game loop by canceling the request for the next animation frame
+        //     cancelNextRequest = true;
+        //     waveCreator.setWaveStage("stage1");
+        //     //
+        //     // Then, return to the main menu
+        //     game.showScreen('main-menu');
+        // });
 
         let config = MyGame.screens["main-menu"].getConfig();
         myKeyboard.register(config.moveLeft, player.moveLeft);
@@ -140,12 +169,24 @@ MyGame.screens['game-play'] = (function(game, input) {
         return enemies;
     }
 
+    function getPlayer() {
+        return player;
+    }
+
+    function playerDeath() {
+        player.lives.splice(player.lives.length - 1, 1);
+        playerHit = true;
+        
+    }
+
     return {
         initialize : initialize,
         run : run,
         addProjectile : addProjectile,
         createExplosion : createExplosion,
-        getEnemies : getEnemies
+        getEnemies : getEnemies,
+        getPlayer : getPlayer,
+        playerDeath : playerDeath
     };
 
 }(MyGame.game, MyGame.input));
