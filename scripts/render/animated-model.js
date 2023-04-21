@@ -31,7 +31,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     // Update the state of the animation
     //
     //------------------------------------------------------------------
-    function update(elapsedTime, ship, projectiles, wave1Enemies, j) {
+    function update(elapsedTime, ship, projectiles, wave1Enemies, j, oscillatePoint) {
         x = ship.ship.center.x;
         y = ship.ship.center.y;
         animationTime += elapsedTime;
@@ -52,15 +52,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
             updateShip(ship.ship, elapsedTime);
         }
 
-        if (spec.pathFinished) {
-            ship.ship.center.x += elapsedTime * moveRate;
-            if (ship.ship.center.x >= ((MyGame.graphics.canvas.width / 2) + MyGame.graphics.canvas.width / 3)) {
-                moveRate = -moveRate;
-            }
-            if (ship.ship.center.x <=((MyGame.graphics.canvas.width / 2) - MyGame.graphics.canvas.width / 3)) {
-                moveRate = -moveRate;
-            }
-        }
+        ship.ship.center.x += oscillatePoint;
 
         for (let i = 0; i < projectiles.length; i++) {
             if ((projectiles[i].center.x + (projectiles[i].size.width / 2)) > (wave1Enemies[j].enemy.ship.center.x - (wave1Enemies[j].enemy.ship.size.x / 2))) {

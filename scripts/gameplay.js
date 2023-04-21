@@ -18,6 +18,9 @@ MyGame.screens['game-play'] = (function(game, input) {
     let livesLeftText;
     let gameOverText;
     let gameOver = false;
+    let oscillatePoint = 0;
+    let oscillateMoverate = 3;
+    let totalTime = 0;
 
     let myKeyboard = input.Keyboard();
 
@@ -26,6 +29,17 @@ MyGame.screens['game-play'] = (function(game, input) {
     }
 
     function update(elapsedTime) {
+        totalTime += elapsedTime;
+
+        if (totalTime >= 14000) {
+            oscillatePoint += oscillateMoverate * elapsedTime;
+            if (oscillatePoint >= 3000) {
+                oscillateMoverate = -3;
+            }
+            if (oscillatePoint <= -3000) {
+                oscillateMoverate = 3;
+            }
+        }
         if (!playerHit) {
             player.update(elapsedTime);
             for (let i = 0; i < projectiles.length; i++) {
@@ -40,7 +54,7 @@ MyGame.screens['game-play'] = (function(game, input) {
             }
 
             for (let j = 0; j < enemies.length; j++) {
-                enemies[j].renderer.update(elapsedTime, enemies[j].enemy, projectiles, enemies, j);
+                enemies[j].renderer.update(elapsedTime, enemies[j].enemy, projectiles, enemies, j, (oscillatePoint / 1000));
             }
 
             waveCreator.update(elapsedTime, enemies);
@@ -124,6 +138,7 @@ MyGame.screens['game-play'] = (function(game, input) {
         highscores = JSON.parse(localStorage.getItem("highScores")).sort();
         highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
         highscoreValue = MyGame.assetCreator.drawHighscoreValue(highscores[0]);
+        totalTime = 0;
 
         // myKeyboard.register('Escape', function() {
         //     //
@@ -139,6 +154,7 @@ MyGame.screens['game-play'] = (function(game, input) {
         myKeyboard.register(config.moveLeft, player.moveLeft);
         myKeyboard.register(config.moveRight, player.moveRight)
         myKeyboard.register(config.shootMissle, player.fireBullet);
+        oscillatePoint = 0;
     }
 
     function run() {

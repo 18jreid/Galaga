@@ -13,11 +13,11 @@ MyGame.loader = (function () {
     let myScripts = [
         {
             scripts: [
+                "scripts/game.js",
                 "scripts/systems/particle-system.js",
                 "scripts/render/particle-system.js",
                 "scripts/render/assets.js",
                 "scripts/input-keyboard.js",
-                "scripts/game.js",
                 "scripts/mainmenu.js",
                 "scripts/enemy.js",
                 "scripts/render/animated-model.js",

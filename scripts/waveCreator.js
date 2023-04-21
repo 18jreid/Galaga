@@ -99,7 +99,7 @@ MyGame.WaveCreator = (function() {
             for (let x = 0; x < 8; x++) {
                 let line = {
                     points: [
-                        { x: -10, y: 615},
+                        { x: -100, y: 615},
                         { x: 315, y: 405},
                         { x: 327, y: 339},
                         { x: 285, y: 285},
@@ -173,6 +173,7 @@ MyGame.WaveCreator = (function() {
                     if (enemies.length === 0) {
                         stage = "stage2";
                         showStage2Logo = true;
+                        createWave1(enemies);
                     }
                 }
             }
