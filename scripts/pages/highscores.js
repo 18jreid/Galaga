@@ -5,8 +5,7 @@ MyGame.screens['high-scores'] = (function(game) {
         document.getElementById('id-high-scores-back').addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 game.showScreen('main-menu');
             });
         let highScores = JSON.parse(localStorage.getItem("highScores"));

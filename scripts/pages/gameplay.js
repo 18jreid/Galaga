@@ -34,9 +34,6 @@ MyGame.screens['game-play'] = (function(game, input) {
     function update(elapsedTime) {
         totalTime += elapsedTime;
 
-        if (waveCreator.getOscillate()) {
-            
-        }
         if (totalTime >= 14000) {
             oscillatePoint += oscillateMoverate * elapsedTime;
             if (oscillatePoint >= 2000) {
@@ -46,6 +43,7 @@ MyGame.screens['game-play'] = (function(game, input) {
                 oscillateMoverate = 2;
             }
         }
+        
         if (!playerHit) {
             player.update(elapsedTime);
             for (let i = 0; i < projectiles.length; i++) {
@@ -141,7 +139,7 @@ MyGame.screens['game-play'] = (function(game, input) {
 
     function initialize() {
         backgroundImg = MyGame.assetCreator.getBackgroundImage();
-        player = MyGame.assetCreator.getPlayer();
+        player = MyGame.assets.Player;
         enemies = [];
         waveCreator = MyGame.WaveCreator;
         livesLeftText = MyGame.assetCreator.drawLivesLeft();
@@ -184,20 +182,6 @@ MyGame.screens['game-play'] = (function(game, input) {
         projectiles.push(bullet);
     }
 
-    function createExplosion(x, y) {
-        let particlesFire = MyGame.SystemParticleSystem.createParticle({
-            center: { x: x, y: y },
-            size: { mean: 8, stdev: 2 },
-            speed: { mean: 15, stdev: 6 },
-            lifetime: { mean: 1.5, stdev: 0.3 },
-        },
-        MyGame.graphics);
-    
-        let renderFire = MyGame.RenderParticleSystem.createRenderer(particlesFire, MyGame.graphics, 'assets/fire.png');
-        
-        particles.push({particlesFire: particlesFire, renderFire : renderFire, lifeTime: 0});
-    }
-
     function getEnemies() {
         return enemies;
     }
@@ -217,13 +201,17 @@ MyGame.screens['game-play'] = (function(game, input) {
         trueHighscoreText = MyGame.assetCreator.drawTrueHighscoreValue(trueHighscoreValue);
     }
 
+    function getParticles() {
+        return particles;
+    }
+
     return {
         initialize : initialize,
         run : run,
         addProjectile : addProjectile,
-        createExplosion : createExplosion,
         getEnemies : getEnemies,
         getPlayer : getPlayer,
+        getParticles : getParticles,
         playerDeath : playerDeath,
         increaseHighscore : increaseHighscore
     };

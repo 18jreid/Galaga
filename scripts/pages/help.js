@@ -18,8 +18,7 @@ MyGame.screens['help'] = (function(game) {
         moveLeftButtonReset.addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 config.moveLeft = "ArrowLeft";
                 localStorage.setItem("config", JSON.stringify(config));
                 moveLeftInput.value = "ArrowLeft"
@@ -29,8 +28,7 @@ MyGame.screens['help'] = (function(game) {
         moveLeftButtonSet.addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 config.moveLeft = moveLeftInput.value;
                 localStorage.setItem("config", JSON.stringify(config));
                 MyGame.screens["main-menu"].setConfig(config);
@@ -44,8 +42,7 @@ MyGame.screens['help'] = (function(game) {
         moveRightButtonReset.addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 config.moveRight = "ArrowRight";
                 localStorage.setItem("config", JSON.stringify(config));
                 moveRightInput.value = "ArrowRight"
@@ -55,8 +52,7 @@ MyGame.screens['help'] = (function(game) {
         moveRightButtonSet.addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 config.moveRight = moveRightInput.value;
                 localStorage.setItem("config", JSON.stringify(config));
                 MyGame.screens["main-menu"].setConfig(config);
@@ -75,8 +71,7 @@ MyGame.screens['help'] = (function(game) {
         shootMissileButtonReset.addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 config.shootMissle = " ";
                 localStorage.setItem("config", JSON.stringify(config));
                 shootMissileInput.value = "space"
@@ -86,8 +81,7 @@ MyGame.screens['help'] = (function(game) {
         shootMissileButtonSet.addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 if (shootMissileInput.value === "space") {
                     config.shootMissle = " ";
                 } else {

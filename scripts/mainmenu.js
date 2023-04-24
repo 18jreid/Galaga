@@ -23,8 +23,7 @@ MyGame.screens['main-menu'] = (function(game) {
         document.getElementById('id-new-game').addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 MyGame.screens['game-play'].initialize();
                 game.showScreen('game-play');
                 cancelNextRequest = true;
@@ -33,24 +32,21 @@ MyGame.screens['main-menu'] = (function(game) {
         document.getElementById('id-high-scores').addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 game.showScreen('high-scores');
             });
         
         document.getElementById('id-help').addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 game.showScreen('help');
             });
         
         document.getElementById('id-about').addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 game.showScreen('about');
             });
     }

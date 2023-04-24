@@ -62,10 +62,10 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                     if ((projectiles[i].center.y) < (wave1Enemies[j].enemy.ship.center.y) + (wave1Enemies[j].enemy.ship.size.y / 2)) {
                         if ((projectiles[i].center.y) + (projectiles[i].size.height / 2) > (wave1Enemies[j].enemy.ship.center.y) - (wave1Enemies[j].enemy.ship.size.y / 2)) {
                             if (projectiles[i].players) {
-                                let explosionAudio = document.createElement("Audio");
-                                explosionAudio.src = "assets/alienDeath.mp3";
-                                explosionAudio.play();
-                                MyGame.screens['game-play'].createExplosion(wave1Enemies[j].enemy.ship.center.x, wave1Enemies[j].enemy.ship.center.y);
+                                MyGame.SoundPlayer.enemyExplosionSound();
+                                MyGame.Particles.enemyExplosion(wave1Enemies[j].enemy.ship.center.x, wave1Enemies[j].enemy.ship.center.y);
+
+                                // Manages scoring for type of enemy and what they're doing
                                 if (wave1Enemies[j].enemy.ship.formation) {
                                     if (wave1Enemies[j].renderer.spec.spriteSheet === "assets/enemyOneSpritesheet.png") {
                                         MyGame.screens['game-play'].increaseHighscore(50);
@@ -99,7 +99,6 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                                 }
 
                                 projectiles.splice(i, 1);
-                                explosionAudio.remove();
                             }
                         }
                     }

@@ -5,8 +5,7 @@ MyGame.screens['about'] = (function(game) {
         document.getElementById('id-about-back').addEventListener(
             'click',
             function() {
-                let sound = document.getElementById("button-select-sound");
-                sound.play();
+                MyGame.SoundPlayer.buttonSelectSound();
                 game.showScreen('main-menu');
             });
     }
