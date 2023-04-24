@@ -220,6 +220,19 @@ MyGame.assetCreator = (function() {
         return highscoreValue;
     }
 
+    function drawTrueHighscoreValue(value) {
+        let highscoreValue = MyGame.graphics.Text({
+            text : '' + value,
+            font : '30px Turret Road',
+            fill : 'white',
+            stroke : 'white',
+            pos : {x : (MyGame.graphics.canvas.width / 8), y : 25},
+            rotation : 0
+        });
+
+        return highscoreValue;
+    }
+
     function drawStage1Header() {
         let highscoreHeader = MyGame.graphics.Text({
             text : 'Stage 1',
@@ -319,6 +332,7 @@ MyGame.assetCreator = (function() {
         drawStage2Header : drawStage2Header,
         getEnemyBullet : getEnemyBullet,
         drawLivesLeft : drawLivesLeft,
-        getGameover : getGameover
+        getGameover : getGameover,
+        drawTrueHighscoreValue : drawTrueHighscoreValue
     };
 }());

@@ -50,11 +50,13 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
         }
         if (ship.totalTime >= ship.moveTime) {
             updateShip(ship.ship, elapsedTime);
+            ship.ship.center.x += oscillatePoint;
         }
 
-        ship.ship.center.x += oscillatePoint;
-
         for (let i = 0; i < projectiles.length; i++) {
+            if (wave1Enemies[j] === undefined) {
+                continue;
+            }
             if ((projectiles[i].center.x + (projectiles[i].size.width / 2)) > (wave1Enemies[j].enemy.ship.center.x - (wave1Enemies[j].enemy.ship.size.x / 2))) {
                 if ((projectiles[i].center.x - (projectiles[i].size.width / 2)) < (wave1Enemies[j].enemy.ship.center.x + (wave1Enemies[j].enemy.ship.size.x / 2))) {
                     if ((projectiles[i].center.y) < (wave1Enemies[j].enemy.ship.center.y) + (wave1Enemies[j].enemy.ship.size.y / 2)) {
@@ -64,8 +66,38 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                                 explosionAudio.src = "assets/alienDeath.mp3";
                                 explosionAudio.play();
                                 MyGame.screens['game-play'].createExplosion(wave1Enemies[j].enemy.ship.center.x, wave1Enemies[j].enemy.ship.center.y);
+                                if (wave1Enemies[j].enemy.ship.formation) {
+                                    if (wave1Enemies[j].renderer.spec.spriteSheet === "assets/enemyOneSpritesheet.png") {
+                                        MyGame.screens['game-play'].increaseHighscore(50);
+                                    }
+
+                                    if (wave1Enemies[j].renderer.spec.spriteSheet === "assets/enemyTwoSpritesheet.png") {
+                                        MyGame.screens['game-play'].increaseHighscore(80);
+                                    }
+
+                                    if (wave1Enemies[j].renderer.spec.spriteSheet === "assets/enemyThreeSpritesheet.png") {
+                                        MyGame.screens['game-play'].increaseHighscore(150);
+                                    }
+                                }
+
+                                if (wave1Enemies[j].enemy.ship.diving) {
+                                    if (wave1Enemies[j].renderer.spec.spriteSheet === "assets/enemyOneSpritesheet.png") {
+                                        MyGame.screens['game-play'].increaseHighscore(100);
+                                    }
+
+                                    if (wave1Enemies[j].renderer.spec.spriteSheet === "assets/enemyTwoSpritesheet.png") {
+                                        MyGame.screens['game-play'].increaseHighscore(160);
+                                    }
+
+                                    if (wave1Enemies[j].renderer.spec.spriteSheet === "assets/enemyThreeSpritesheet.png") {
+                                        MyGame.screens['game-play'].increaseHighscore(400);
+                                    }
+                                }
                                 
-                                wave1Enemies.splice(j, 1);
+                                if (wave1Enemies[1] !== undefined) {
+                                    wave1Enemies.splice(j, 1)
+                                }
+
                                 projectiles.splice(i, 1);
                                 explosionAudio.remove();
                             }
@@ -88,7 +120,8 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                 { x: x + 20, y: y - 50, attack: false},
                 { x: x + 50, y: y - 30, attack: true},
                 { x: x + 40, y: y, attack: false},
-                { x: x + 40, y: y + 3000, attack: false},
+                { x: x + 40, y: y + 1500, attack: false},
+                { x: MyGame.graphics.canvas.width / 2, y: 400, attack: false},
             ]
         };
     }

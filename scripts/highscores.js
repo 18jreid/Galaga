@@ -10,12 +10,14 @@ MyGame.screens['high-scores'] = (function(game) {
                 game.showScreen('main-menu');
             });
         let highScores = JSON.parse(localStorage.getItem("highScores"));
-        highScores = highScores.sort();
+        highScores = highScores.sort(function(a, b) {
+            return a - b;
+          });;
         
-        document.getElementById("high-score-1").innerHTML = highScores[0];
-        document.getElementById("high-score-2").innerHTML = highScores[1];
-        document.getElementById("high-score-3").innerHTML = highScores[2];
-        document.getElementById("high-score-4").innerHTML = highScores[3];
+        document.getElementById("high-score-1").innerHTML = highScores[highScores.length - 1];
+        document.getElementById("high-score-2").innerHTML = highScores[highScores.length - 2];
+        document.getElementById("high-score-3").innerHTML = highScores[highScores.length - 3];
+        document.getElementById("high-score-4").innerHTML = highScores[highScores.length - 4];
     }
     
     function run() {
