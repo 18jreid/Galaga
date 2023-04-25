@@ -1,24 +1,21 @@
-// --------------------------------------------------------------
-//
-// Renders an animated model based on a spritesheet.
-//
-// --------------------------------------------------------------
+
 MyGame.render.AnimatedModel = function(spec, graphics) {
     'use strict';
 
+    // Initialize variables
     let animationTime = 0;
     let subImageIndex = 0;
     let subTextureWidth = 0;
     let image = new Image();
-    let isReady = false;  // Can't render until the texture is loaded
-    let moveRate = 0.2;
+    let isReady = false;
     let pathFinished = false;
     let x = 0;
     let y = 0;
     let attack = true;
+    let oscillateTime = 0;
+    let coefficient = 0.04;
 
-    //
-    // Load he texture to use for the particle system loading and ready for rendering
+    // Load enemy sprite sheet image
     image.onload = function() {
         isReady = true;
         subTextureWidth = image.width / spec.spriteCount;
@@ -26,33 +23,42 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     image.src = spec.spriteSheet;
     spec.pathFinished = pathFinished;
 
-    //------------------------------------------------------------------
-    //
-    // Update the state of the animation
-    //
-    //------------------------------------------------------------------
+    function oscillate(elapsedTime, oscillatePoint, totalTime) {
+        if (oscillateTime >= 2000) {
+            oscillateTime = 0;
+            coefficient *= -1;
+        } 
+        let speed = Math.PI / 2; // radians per second
+        let amplitude = 50; // pixels
+        let angle = (speed * totalTime) % (2 * Math.PI);
+        let displacement = Math.sin(angle) * amplitude;
+        return (oscillatePoint + displacement);
+    }
+
+    // Update function to animate enemy and detect collisions with player projectiles
     function update(elapsedTime, ship, projectiles, wave1Enemies, j, oscillatePoint) {
+        oscillateTime += elapsedTime;
+        // Update position of enemy based on player ship position
         x = ship.ship.center.x;
         y = ship.ship.center.y;
         animationTime += elapsedTime;
         ship.setTotalTime(elapsedTime)
-        //
-        // Check to see if we should update the animation frame
+       
+        // Update animation of enemy sprite
         if (animationTime >= spec.spriteTime[subImageIndex]) {
-            //
-            // When switching sprites, keep the leftover time because
-            // it needs to be accounted for the next sprite animation frame.
             animationTime -= spec.spriteTime[subImageIndex];
             subImageIndex += 1;
-            //
-            // Wrap around from the last back to the first sprite as needed
             subImageIndex = subImageIndex % spec.spriteCount;
         }
+
+        // Move enemy along its preset path
         if (ship.totalTime >= ship.moveTime) {
-            updateShip(ship.ship, elapsedTime);
-            ship.ship.center.x += oscillatePoint;
+            followPath(ship.ship, elapsedTime);
+            // ship.ship.center.x += oscillatePoint;
+            ship.ship.center.x += oscillate(elapsedTime, 1, 2) * coefficient * elapsedTime;
         }
 
+        // Check for collision with player projectiles
         for (let i = 0; i < projectiles.length; i++) {
             if (wave1Enemies[j] === undefined) {
                 continue;
@@ -62,19 +68,19 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                     if ((projectiles[i].center.y) < (wave1Enemies[j].enemy.ship.center.y) + (wave1Enemies[j].enemy.ship.size.y / 2)) {
                         if ((projectiles[i].center.y) + (projectiles[i].size.height / 2) > (wave1Enemies[j].enemy.ship.center.y) - (wave1Enemies[j].enemy.ship.size.y / 2)) {
                             if (projectiles[i].players) {
+                                // Play enemy explosion sound effect and create explosion particle effect
                                 MyGame.SoundPlayer.enemyExplosionSound();
                                 MyGame.Particles.enemyExplosion(wave1Enemies[j].enemy.ship.center.x, wave1Enemies[j].enemy.ship.center.y);
+                                MyGame.screens['game-play'].setHits(1);
 
-                                // Manages scoring for type of enemy and what they're doing
+                                // Increase player score based on enemy type and behavior
                                 if (wave1Enemies[j].enemy.ship.formation) {
                                     if (wave1Enemies[j].renderer.spec.spriteSheet === "assets/enemyOneSpritesheet.png") {
                                         MyGame.screens['game-play'].increaseHighscore(50);
                                     }
-
                                     if (wave1Enemies[j].renderer.spec.spriteSheet === "assets/enemyTwoSpritesheet.png") {
                                         MyGame.screens['game-play'].increaseHighscore(80);
                                     }
-
                                     if (wave1Enemies[j].renderer.spec.spriteSheet === "assets/enemyThreeSpritesheet.png") {
                                         MyGame.screens['game-play'].increaseHighscore(150);
                                     }
@@ -132,12 +138,12 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
         return Math.sqrt(dx2 + dy2);
     }
 
-    function updateShip(ship, elapsedTime) {
+    function followPath(ship, elapsedTime) {
         if (ship.pathIndex === 0) {
             document.getElementById('alien-flying-sound').play();
         }
         if (ship.pathIndex < ship.path.points.length - 1) {
-            // Compute distance traveled
+            
             let distTraveled = ship.moveRate * elapsedTime;
             if (ship.path.points[ship.pathIndex + 1].attack) {
                 setTimeout(() => {
@@ -149,12 +155,12 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                 attack = false;
             }
 
-            // Compute remaining distance on the current line segment
+            
             let distRemaining = computeDistance(ship.center.x, ship.center.y, ship.path.points[ship.pathIndex + 1].x, ship.path.points[ship.pathIndex + 1].y);
             
             if (distTraveled > distRemaining) {
                 distTraveled -= distRemaining;
-                // Move the ship to the end of the current line segment
+                
                 ship.center.x = ship.path.points[ship.pathIndex + 1].x;
                 ship.center.y = ship.path.points[ship.pathIndex + 1].y;
 
@@ -162,18 +168,17 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
             }
 
             if (ship.pathIndex < ship.path.points.length - 1) {
-                // Now, handle the distance along the current line segment
-                // Start by computing the direction vector of the line
+                
                 let dirX = ship.path.points[ship.pathIndex + 1].x - ship.center.x;
                 let dirY = ship.path.points[ship.pathIndex + 1].y - ship.center.y;
-                // Normalize the vector
+                
                 let dirMag = Math.sqrt(dirX * dirX + dirY * dirY);
                 dirX /= dirMag;
                 dirY /= dirMag;
-                // See how far along that vector the ship moved
+                
                 let moveX = distTraveled * dirX;
                 let moveY = distTraveled * dirY;
-                // Update the ship position with the movement distance
+                
                 ship.center.x += moveX;
                 ship.center.y += moveY;
             }
@@ -183,12 +188,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
             }, 250);
         }
     }
-
-    //------------------------------------------------------------------
-    //
-    // Render the specific sub-texture animation frame
-    //
-    //------------------------------------------------------------------
+    
     function render(model) {
         if (isReady) {
             graphics.drawSubTexture(image, subImageIndex, subTextureWidth, model.center, model.rotation, model.size);

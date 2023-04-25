@@ -156,7 +156,7 @@ MyGame.WaveCreator = (function() {
                             { x: 457, y: 589 },
                             { x: 423, y: 560 },
                             { x: 408, y: 500 },
-                            { x: 549 + (x * 40), y: 223 + (y * 40) },
+                            { x: 549 + (x * 60), y: 223 + (y * 40) },
                         ]
                     };
 
@@ -201,7 +201,7 @@ MyGame.WaveCreator = (function() {
                             { x: 291, y: 560 },
                             { x: 334, y: 500 },
                             { x: 350, y: 490 },
-                            { x: 202 + (x * 40), y: 223 + (y * 40) },
+                            { x: 202 + (x * 70), y: 223 + (y * 40) },
                         ]
                     };
 
@@ -239,7 +239,7 @@ MyGame.WaveCreator = (function() {
         let rotation = (180 * Math.PI) / 180
         if (!showStage2Logo) {
             let moveTimeIncrement = 0;
-            for (let x = 0; x < 2; x++) {
+            for (let x = 0; x < 3; x++) {
                 for (let y = 0; y < 2; y++) {
                     let line = {
                         points: [
@@ -251,7 +251,7 @@ MyGame.WaveCreator = (function() {
                             { x: 387, y: 650},
                             { x: 351, y: 580},
                             { x: 354, y: 500},
-                            { x: 515 + (x * 100), y: 215 + (y * 40) },
+                            { x: 515 + (x * 100), y: 215 + (y * 20) },
                         ]
                     };
 
@@ -284,7 +284,7 @@ MyGame.WaveCreator = (function() {
             }
 
             moveTimeIncrement = 0;
-            for (let x = 0; x < 2; x++) {
+            for (let x = 0; x < 3; x++) {
                 for (let y = 0; y < 2; y++) {
                     let line = {
                         points: [
@@ -296,7 +296,7 @@ MyGame.WaveCreator = (function() {
                             { x: 145, y: 650},
                             { x: 215, y: 580},
                             { x: 357, y: 500},
-                            { x: 515 + (x * 100), y: 288 + (y * 40) },
+                            { x: 515 + (x * 100), y: 288 + (y * 20) },
                         ]
                     };
 
@@ -418,46 +418,48 @@ MyGame.WaveCreator = (function() {
 
             moveTimeIncrement = 4000;
             for (let x = 0; x < 8; x++) {
-                let line = {
-                    points: [
-                        { x: -100, y: 615},
-                        { x: 315, y: 405},
-                        { x: 327, y: 339},
-                        { x: 285, y: 285},
-                        { x: 211, y: 295},
-                        { x: 181, y: 353},
-                        { x: 207, y: 414},
-                        { x: 264, y: 427},
-                        { x: 327, y: 385},
-                        { x: 250 + (x * 40), y: 650 },
-                    ]
-                };
-
-                let enemy = MyGame.objects.Enemy({
-                    size: { x: 40, y: 40 },       // Size in pixels
-                    center: { x: line.points[0].x, y: line.points[0].y },
-                    rotation: 0,
-                    moveRate: 500 / 1000,         // Pixels per second
-                    rotateRate: Math.PI / 1000,    // Radians per second,
-                    path: line,
-                    pathIndex: 0,
-                    totalTime: 0,
-                    moveTime: moveTimeIncrement,
-                    formation: true,
-                    diving: false
-                });
-                let enemyRenderer = MyGame.render.AnimatedModel({
-                    spriteSheet: 'assets/enemyThreeSpritesheet.png',
-                    spriteCount: 2,
-                    spriteTime: [500, 500],   // ms per frame
-                }, MyGame.graphics);
-        
-                let enemyObject = {
-                    enemy: enemy,
-                    renderer: enemyRenderer
+                for (let y = 0; y < 2; y++) {
+                    let line = {
+                        points: [
+                            { x: -100, y: 615},
+                            { x: 315, y: 405},
+                            { x: 327, y: 339},
+                            { x: 285, y: 285},
+                            { x: 211, y: 295},
+                            { x: 181, y: 353},
+                            { x: 207, y: 414},
+                            { x: 264, y: 427},
+                            { x: 327, y: 385},
+                            { x: 250 + (x * 40), y: 650 + (y * 40) },
+                        ]
+                    };
+    
+                    let enemy = MyGame.objects.Enemy({
+                        size: { x: 40, y: 40 },       // Size in pixels
+                        center: { x: line.points[0].x, y: line.points[0].y },
+                        rotation: 0,
+                        moveRate: 500 / 1000,         // Pixels per second
+                        rotateRate: Math.PI / 1000,    // Radians per second,
+                        path: line,
+                        pathIndex: 0,
+                        totalTime: 0,
+                        moveTime: moveTimeIncrement,
+                        formation: true,
+                        diving: false
+                    });
+                    let enemyRenderer = MyGame.render.AnimatedModel({
+                        spriteSheet: 'assets/enemyThreeSpritesheet.png',
+                        spriteCount: 2,
+                        spriteTime: [500, 500],   // ms per frame
+                    }, MyGame.graphics);
+            
+                    let enemyObject = {
+                        enemy: enemy,
+                        renderer: enemyRenderer
+                    }
+                    enemies.push(enemyObject);
+                    moveTimeIncrement += 333;
                 }
-                enemies.push(enemyObject);
-                moveTimeIncrement += 333;
             }
         }
     }

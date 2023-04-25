@@ -159,7 +159,46 @@ MyGame.assetCreator = (function() {
             font : '30px Turret Road',
             fill : 'Red',
             stroke : 'Red',
-            pos : {x : (MyGame.graphics.canvas.width / 2) - 70 , y : MyGame.graphics.canvas.height / 2},
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 110 , y : (MyGame.graphics.canvas.height / 2) - 150},
+            rotation : 0
+        });
+
+        return livesLeft;
+    }
+
+    function getShotsFired(shots) {
+        let livesLeft = MyGame.graphics.Text({
+            text : 'Shots fired: ' + shots,
+            font : '30px Turret Road',
+            fill : 'Red',
+            stroke : 'Red',
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 110 , y : (MyGame.graphics.canvas.height / 2) - 100},
+            rotation : 0
+        });
+
+        return livesLeft;
+    }
+
+    function getHitsText(hits) {
+        let livesLeft = MyGame.graphics.Text({
+            text : 'Hits: ' + hits,
+            font : '30px Turret Road',
+            fill : 'Red',
+            stroke : 'Red',
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 110 , y : MyGame.graphics.canvas.height / 2 - 50},
+            rotation : 0
+        });
+
+        return livesLeft;
+    }
+
+    function getHitMissRatio(hits, shots) {
+        let livesLeft = MyGame.graphics.Text({
+            text : 'Hit/Miss Ratio: ' + (hits / shots).toFixed(2),
+            font : '30px Turret Road',
+            fill : 'Red',
+            stroke : 'Red',
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 110 , y : MyGame.graphics.canvas.height / 2},
             rotation : 0
         });
 
@@ -175,6 +214,9 @@ MyGame.assetCreator = (function() {
         getEnemyBullet : getEnemyBullet,
         drawLivesLeft : drawLivesLeft,
         getGameover : getGameover,
-        drawTrueHighscoreValue : drawTrueHighscoreValue
+        drawTrueHighscoreValue : drawTrueHighscoreValue,
+        getShotsFired : getShotsFired,
+        getHitMissRatio : getHitMissRatio,
+        getHitsText : getHitsText
     };
 }());

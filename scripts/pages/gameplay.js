@@ -24,6 +24,11 @@ MyGame.screens['game-play'] = (function(game, input) {
     let oscillateMoverate = 3;
     let totalTime = 0;
     let highScoreRegistered = false;
+    let hitMissRatioText;
+    let shotsFiredTex;
+    let shotsFired = 0;
+    let hits = 0;
+    let hitsText;
 
     let myKeyboard = input.Keyboard();
 
@@ -43,7 +48,7 @@ MyGame.screens['game-play'] = (function(game, input) {
                 oscillateMoverate = 2;
             }
         }
-        
+
         if (!playerHit) {
             player.update(elapsedTime);
             for (let i = 0; i < projectiles.length; i++) {
@@ -79,6 +84,9 @@ MyGame.screens['game-play'] = (function(game, input) {
 
         if (gameOver) {
             gameOverText.draw();
+            hitsText.draw();
+            shotsFiredTex.draw();
+            hitMissRatioText.draw();
         } else {
             // Render player attributes
             if (!playerHit) {
@@ -98,6 +106,7 @@ MyGame.screens['game-play'] = (function(game, input) {
                         console.log(trueHighscoreValue)
                         highScoreRegistered = true;
                     }
+                    hitMissRatioText = MyGame.assetCreator.getHitMissRatio(hits, shotsFired);
                     gameOver = true;
                 }
             }
@@ -151,6 +160,7 @@ MyGame.screens['game-play'] = (function(game, input) {
           });;
         highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
         highscoreValue = MyGame.assetCreator.drawHighscoreValue(highscores[highscores.length - 1]);
+
         console.log(highscores)
         trueHighscoreText = MyGame.assetCreator.drawTrueHighscoreValue(trueHighscoreValue);
         totalTime = 0;
@@ -205,6 +215,16 @@ MyGame.screens['game-play'] = (function(game, input) {
         return particles;
     }
 
+    function setHits(value) {
+        hits += value;
+        hitsText = MyGame.assetCreator.getHitsText(hits);
+    }
+
+    function setShots(value) {
+        shotsFired += value;
+        shotsFiredTex = MyGame.assetCreator.getShotsFired(shotsFired);
+    }
+
     return {
         initialize : initialize,
         run : run,
@@ -213,7 +233,9 @@ MyGame.screens['game-play'] = (function(game, input) {
         getPlayer : getPlayer,
         getParticles : getParticles,
         playerDeath : playerDeath,
-        increaseHighscore : increaseHighscore
+        increaseHighscore : increaseHighscore,
+        setHits : setHits,
+        setShots : setShots
     };
 
 }(MyGame.game, MyGame.input));
