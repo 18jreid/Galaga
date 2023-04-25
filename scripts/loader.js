@@ -20,7 +20,7 @@ MyGame.loader = (function () {
                 "scripts/render/particle-system.js",
                 "scripts/render/assets.js",
                 "scripts/input-keyboard.js",
-                "scripts/mainmenu.js",
+                "scripts/pages/mainmenu.js",
                 "scripts/entities/enemy.js",
                 "scripts/render/animated-enemy.js",
                 "scripts/random.js",
@@ -110,6 +110,10 @@ MyGame.loader = (function () {
         {
             key: 'enemyFourSpritesheet',
             source: "assets/enemyFourSpritesheet.png"
+        },
+        {
+            key: 'backgroundAmbience',
+            source: "assets/backgroundAmbience.mp3"
         }
     ]
 

@@ -34,11 +34,19 @@ MyGame.SoundPlayer = (function() {
         explosionAudio.remove();
     }
 
+    function ambienceSound() {
+        let audio = document.createElement("Audio");
+        audio.src = "assets/backgroundAmbience.mp3"
+        audio.play();
+        audio.loop = true;
+    }
+
     return {
         enemyExplosionSound : enemyExplosionSound,
         playerExplosionSound : playerExplosionSound,
         alienFlyingSound : alienFlyingSound,
         playerShotSound : playerShotSound,
-        buttonSelectSound : buttonSelectSound
+        buttonSelectSound : buttonSelectSound,
+        ambienceSound : ambienceSound
     }
 }())

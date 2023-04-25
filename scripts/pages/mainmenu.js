@@ -25,6 +25,8 @@ MyGame.screens['main-menu'] = (function(game) {
             function() {
                 MyGame.SoundPlayer.buttonSelectSound();
                 MyGame.screens['game-play'].initialize();
+                document.getElementById('game-start-sound').pause();
+                MyGame.SoundPlayer.ambienceSound();
                 game.showScreen('game-play');
                 cancelNextRequest = true;
         });

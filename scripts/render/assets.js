@@ -94,7 +94,7 @@ MyGame.assetCreator = (function() {
             font : '30px Turret Road',
             fill : 'white',
             stroke : 'white',
-            pos : {x : (MyGame.graphics.canvas.width / 2) - 10, y : 40},
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 30, y : 40},
             rotation : 0
         });
 
@@ -107,7 +107,7 @@ MyGame.assetCreator = (function() {
             font : '30px Turret Road',
             fill : 'white',
             stroke : 'white',
-            pos : {x : (MyGame.graphics.canvas.width / 8), y : 25},
+            pos : {x : (MyGame.graphics.canvas.width / 64), y : 10},
             rotation : 0
         });
 
