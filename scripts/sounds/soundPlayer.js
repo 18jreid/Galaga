@@ -41,12 +41,26 @@ MyGame.SoundPlayer = (function() {
         audio.loop = true;
     }
 
+    function changeConfirmSound() {
+        let audio = document.createElement("Audio");
+        audio.src = "assets/changeConfirm.mp3"
+        audio.play();
+    }
+
+    function resetSound() {
+        let audio = document.createElement("Audio");
+        audio.src = "assets/resetSound.mp3"
+        audio.play();
+    } 
+
     return {
         enemyExplosionSound : enemyExplosionSound,
         playerExplosionSound : playerExplosionSound,
         alienFlyingSound : alienFlyingSound,
         playerShotSound : playerShotSound,
         buttonSelectSound : buttonSelectSound,
-        ambienceSound : ambienceSound
+        ambienceSound : ambienceSound,
+        changeConfirmSound : changeConfirmSound,
+        resetSound : resetSound
     }
 }())

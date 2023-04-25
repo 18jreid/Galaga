@@ -15,7 +15,7 @@ MyGame.screens['help'] = (function(game) {
         let moveLeftInput = document.getElementsByClassName('moveLeftInput')[0];
         moveLeftInput.value = config.moveLeft;
         moveLeftInput.addEventListener('keydown', function(event) {
-            MyGame.SoundPlayer.buttonSelectSound();
+            MyGame.SoundPlayer.changeConfirmSound();
             config.moveLeft = event.key;
             localStorage.setItem("config", JSON.stringify(config));
             moveLeftInput.value = event.key;
@@ -25,7 +25,7 @@ MyGame.screens['help'] = (function(game) {
         let moveRightInput = document.getElementsByClassName('moveRightInput')[0];
         moveRightInput.value = config.moveRight;
         moveRightInput.addEventListener('keydown', function(event) {
-            MyGame.SoundPlayer.buttonSelectSound();
+            MyGame.SoundPlayer.changeConfirmSound();
             config.moveRight = event.key;
             localStorage.setItem("config", JSON.stringify(config));
             moveRightInput.value = event.key;
@@ -40,7 +40,7 @@ MyGame.screens['help'] = (function(game) {
             shootMissileInput.value = config.shootMissle;
         }
         shootMissileInput.addEventListener('keydown', function(event) {
-            MyGame.SoundPlayer.buttonSelectSound();
+            MyGame.SoundPlayer.changeConfirmSound();
             if (event.key === " ") {
                 config.shootMissle = " ";
             } else {
