@@ -29,6 +29,7 @@ MyGame.screens['game-play'] = (function(game, input) {
     let shotsFired = 0;
     let hits = 0;
     let hitsText;
+    let finalScoreText;
 
     let myKeyboard = input.Keyboard();
 
@@ -87,6 +88,7 @@ MyGame.screens['game-play'] = (function(game, input) {
             hitsText.draw();
             shotsFiredTex.draw();
             hitMissRatioText.draw();
+            finalScoreText.draw();
         } else {
             // Render player attributes
             if (!playerHit) {
@@ -107,6 +109,7 @@ MyGame.screens['game-play'] = (function(game, input) {
                         highScoreRegistered = true;
                     }
                     hitMissRatioText = MyGame.assetCreator.getHitMissRatio(hits, shotsFired);
+                    finalScoreText = MyGame.assetCreator.getFinalScoreText(trueHighscoreValue);
                     gameOver = true;
                 }
             }

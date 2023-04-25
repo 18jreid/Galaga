@@ -12,55 +12,26 @@ MyGame.screens['help'] = (function(game) {
         
         let config = MyGame.screens["main-menu"].getConfig();
         // Move Left Config
-        let moveLeftButtonReset = document.getElementsByClassName("moveLeftButtonReset")[0];
         let moveLeftInput = document.getElementsByClassName('moveLeftInput')[0];
         moveLeftInput.value = config.moveLeft;
-        moveLeftButtonReset.addEventListener(
-            'click',
-            function() {
-                MyGame.SoundPlayer.buttonSelectSound();
-                config.moveLeft = "ArrowLeft";
-                localStorage.setItem("config", JSON.stringify(config));
-                moveLeftInput.value = "ArrowLeft"
-            }
-        );
-        let moveLeftButtonSet = document.getElementsByClassName("moveLeftButtonSet")[0];
-        moveLeftButtonSet.addEventListener(
-            'click',
-            function() {
-                MyGame.SoundPlayer.buttonSelectSound();
-                config.moveLeft = moveLeftInput.value;
-                localStorage.setItem("config", JSON.stringify(config));
-                MyGame.screens["main-menu"].setConfig(config);
-            }
-        );
+        moveLeftInput.addEventListener('keydown', function(event) {
+            MyGame.SoundPlayer.buttonSelectSound();
+            config.moveLeft = event.key;
+            localStorage.setItem("config", JSON.stringify(config));
+            moveLeftInput.value = event.key;
+        });
 
         // Move Right Config
-        let moveRightButtonReset = document.getElementsByClassName("moveRightButtonReset")[0];
         let moveRightInput = document.getElementsByClassName('moveRightInput')[0];
         moveRightInput.value = config.moveRight;
-        moveRightButtonReset.addEventListener(
-            'click',
-            function() {
-                MyGame.SoundPlayer.buttonSelectSound();
-                config.moveRight = "ArrowRight";
-                localStorage.setItem("config", JSON.stringify(config));
-                moveRightInput.value = "ArrowRight"
-            }
-        );
-        let moveRightButtonSet = document.getElementsByClassName("moveRightButtonSet")[0];
-        moveRightButtonSet.addEventListener(
-            'click',
-            function() {
-                MyGame.SoundPlayer.buttonSelectSound();
-                config.moveRight = moveRightInput.value;
-                localStorage.setItem("config", JSON.stringify(config));
-                MyGame.screens["main-menu"].setConfig(config);
-            }
-        );
+        moveRightInput.addEventListener('keydown', function(event) {
+            MyGame.SoundPlayer.buttonSelectSound();
+            config.moveRight = event.key;
+            localStorage.setItem("config", JSON.stringify(config));
+            moveRightInput.value = event.key;
+        });
 
         // Shoot Missile Config
-        let shootMissileButtonReset = document.getElementsByClassName("shootMissileButtonReset")[0];
         let shootMissileInput = document.getElementsByClassName('shootMissileInput')[0];
         if (config.shootMissle === " ") {
             shootMissileInput.value = "space"
@@ -68,29 +39,17 @@ MyGame.screens['help'] = (function(game) {
         else {
             shootMissileInput.value = config.shootMissle;
         }
-        shootMissileButtonReset.addEventListener(
-            'click',
-            function() {
-                MyGame.SoundPlayer.buttonSelectSound();
+        shootMissileInput.addEventListener('keydown', function(event) {
+            MyGame.SoundPlayer.buttonSelectSound();
+            if (event.key === " ") {
                 config.shootMissle = " ";
-                localStorage.setItem("config", JSON.stringify(config));
-                shootMissileInput.value = "space"
+            } else {
+                config.shootMissle = event.key;
             }
-        );
-        let shootMissileButtonSet = document.getElementsByClassName("shootMissileButtonSet")[0];
-        shootMissileButtonSet.addEventListener(
-            'click',
-            function() {
-                MyGame.SoundPlayer.buttonSelectSound();
-                if (shootMissileInput.value === "space") {
-                    config.shootMissle = " ";
-                } else {
-                    config.shootMissle = shootMissileInput.value;
-                }
-                localStorage.setItem("config", JSON.stringify(config));
-                MyGame.screens["main-menu"].setConfig(config);
-            }
-        );
+            localStorage.setItem("config", JSON.stringify(config));
+            shootMissileInput.value = event.key;
+        });
+
     }
     
     function run() {

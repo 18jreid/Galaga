@@ -140,6 +140,19 @@ MyGame.assetCreator = (function() {
         return highscoreHeader;
     }
 
+    function drawChallengingStageHeader() {
+        let highscoreHeader = MyGame.graphics.Text({
+            text : 'Challenging Stage',
+            font : '30px Turret Road',
+            fill : 'White',
+            stroke : 'White',
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 140 , y : MyGame.graphics.canvas.height / 2},
+            rotation : 0
+        });
+
+        return highscoreHeader;
+    }
+
     function drawLivesLeft() {
         let livesLeft = MyGame.graphics.Text({
             text : 'Lives Left: ' + MyGame.screens['game-play'].getPlayer().lives.length,
@@ -204,6 +217,19 @@ MyGame.assetCreator = (function() {
 
         return livesLeft;
     }
+
+    function getFinalScoreText(score) {
+        let livesLeft = MyGame.graphics.Text({
+            text : 'Final Score: ' + (score),
+            font : '30px Turret Road',
+            fill : 'Red',
+            stroke : 'Red',
+            pos : {x : (MyGame.graphics.canvas.width / 2) - 110 , y : (MyGame.graphics.canvas.height / 2) + 50},
+            rotation : 0
+        });
+
+        return livesLeft;
+    }
     
     return {
         getBackgroundImage: getBackgroundImage,
@@ -217,6 +243,8 @@ MyGame.assetCreator = (function() {
         drawTrueHighscoreValue : drawTrueHighscoreValue,
         getShotsFired : getShotsFired,
         getHitMissRatio : getHitMissRatio,
-        getHitsText : getHitsText
+        getHitsText : getHitsText,
+        drawChallengingStageHeader : drawChallengingStageHeader,
+        getFinalScoreText : getFinalScoreText
     };
 }());
