@@ -11,4 +11,4 @@ Steps:
 
     'npm start'
 
-    The server will be accessed through localPort:4000
+    The server will be accessed through localPort:8000
