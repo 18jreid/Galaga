@@ -76,7 +76,7 @@ MyGame.screens['main-menu'] = (function(game) {
             document.removeEventListener('mousemove', resetIdle);
         }
 
-        if (idle >= 25000) {
+        if (idle >= 60000) {
             let canvas = document.getElementById('game-play');
             canvas.removeAttribute('game-play');
             canvas.setAttribute('id', 'ai-game-play')
