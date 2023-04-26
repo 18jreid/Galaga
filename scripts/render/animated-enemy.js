@@ -36,7 +36,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
     }
 
     // Update function to animate enemy and detect collisions with player projectiles
-    function update(elapsedTime, ship, projectiles, wave1Enemies, j, oscillatePoint) {
+    function update(elapsedTime, ship, projectiles, wave1Enemies, j, particles) {
         oscillateTime += elapsedTime;
         // Update position of enemy based on player ship position
         x = ship.ship.center.x;
@@ -70,7 +70,7 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                             if (projectiles[i].players) {
                                 // Play enemy explosion sound effect and create explosion particle effect
                                 MyGame.SoundPlayer.enemyExplosionSound();
-                                MyGame.Particles.enemyExplosion(wave1Enemies[j].enemy.ship.center.x, wave1Enemies[j].enemy.ship.center.y);
+                                MyGame.Particles.enemyExplosion(wave1Enemies[j].enemy.ship.center.x, wave1Enemies[j].enemy.ship.center.y, particles);
                                 MyGame.screens['game-play'].setHits(1);
 
                                 // Increase player score based on enemy type and behavior
@@ -150,7 +150,12 @@ MyGame.render.AnimatedModel = function(spec, graphics) {
                     attack = true;
                 }, 100);
                 if (attack) {
-                    MyGame.assetCreator.getEnemyBullet(ship, elapsedTime);
+                    if (ship.ai) {
+                        MyGame.assetCreator.getEnemyBullet(ship, elapsedTime, MyGame.screens['ai-game-play'].getParticles());
+                    } else {
+                        MyGame.assetCreator.getEnemyBullet(ship, elapsedTime, MyGame.screens['game-play'].getParticles());
+
+                    }
                 }
                 attack = false;
             }

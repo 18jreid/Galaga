@@ -1,7 +1,7 @@
 MyGame.Particles = (function() {
     'use strict';
 
-    function enemyExplosion(x, y) {
+    function enemyExplosion(x, y, particles) {
         let particlesFire = MyGame.SystemParticleSystem.createParticle({
             center: { x: x, y: y },
             size: { mean: 8, stdev: 2 },
@@ -12,10 +12,10 @@ MyGame.Particles = (function() {
     
         let renderFire = MyGame.RenderParticleSystem.createRenderer(particlesFire, MyGame.graphics, 'assets/fire.png');
         
-        MyGame.screens['game-play'].getParticles().push({particlesFire: particlesFire, renderFire : renderFire, lifeTime: 0});
+        particles.push({particlesFire: particlesFire, renderFire : renderFire, lifeTime: 0});
     }
 
-    function playerExplosion(x, y) {
+    function playerExplosion(x, y, particles) {
         let particlesFire = MyGame.SystemParticleSystem.createParticle({
             center: { x: x, y: y },
             size: { mean: 8, stdev: 2 },
@@ -26,7 +26,7 @@ MyGame.Particles = (function() {
     
         let renderFire = MyGame.RenderParticleSystem.createRenderer(particlesFire, MyGame.graphics, 'assets/smoke-2.png');
         
-        MyGame.screens['game-play'].getParticles().push({particlesFire: particlesFire, renderFire : renderFire, lifeTime: 0});
+       particles.push({particlesFire: particlesFire, renderFire : renderFire, lifeTime: 0});
     }
 
     return {

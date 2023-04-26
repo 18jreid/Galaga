@@ -64,7 +64,7 @@ MyGame.screens['game-play'] = (function(game, input) {
             }
 
             for (let j = 0; j < enemies.length; j++) {
-                enemies[j].renderer.update(elapsedTime, enemies[j].enemy, projectiles, enemies, j, (oscillatePoint / 1000));
+                enemies[j].renderer.update(elapsedTime, enemies[j].enemy, projectiles, enemies, j, particles);
             }
 
             waveCreator.update(elapsedTime, enemies);
@@ -156,6 +156,7 @@ MyGame.screens['game-play'] = (function(game, input) {
         waveCreator = MyGame.WaveCreator;
         livesLeftText = MyGame.assetCreator.drawLivesLeft();
         gameOverText = MyGame.assetCreator.getGameover();
+        
 
         projectiles = [];
         highscores = JSON.parse(localStorage.getItem("highScores")).sort(function(a, b) {
@@ -164,8 +165,8 @@ MyGame.screens['game-play'] = (function(game, input) {
         highscoreHeader = MyGame.assetCreator.drawHighscoreHeader();
         highscoreValue = MyGame.assetCreator.drawHighscoreValue(highscores[highscores.length - 1]);
 
-        console.log(highscores)
         trueHighscoreText = MyGame.assetCreator.drawTrueHighscoreValue(trueHighscoreValue);
+        trueHighscoreValue = 0;
         totalTime = 0;
 
         // myKeyboard.register('Escape', function() {
@@ -228,6 +229,10 @@ MyGame.screens['game-play'] = (function(game, input) {
         shotsFiredTex = MyGame.assetCreator.getShotsFired(shotsFired);
     }
 
+    function setTrueHighScore() {
+        trueHighscoreValue = 0;
+    }
+
     return {
         initialize : initialize,
         run : run,
@@ -238,7 +243,8 @@ MyGame.screens['game-play'] = (function(game, input) {
         playerDeath : playerDeath,
         increaseHighscore : increaseHighscore,
         setHits : setHits,
-        setShots : setShots
+        setShots : setShots,
+        setTrueHighScore : setTrueHighScore
     };
 
 }(MyGame.game, MyGame.input));

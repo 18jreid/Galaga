@@ -42,7 +42,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyOneSpritesheet.png',
@@ -86,7 +87,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -131,7 +133,8 @@ MyGame.WaveCreator = (function() {
                     totalTime: 0,
                     moveTime: moveTimeIncrement,
                     formation: true,
-                    diving: false
+                    diving: false,
+                        ai: false
                 });
                 let enemyRenderer = MyGame.render.AnimatedModel({
                     spriteSheet: 'assets/enemyThreeSpritesheet.png',
@@ -174,7 +177,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyOneSpritesheet.png',
@@ -219,7 +223,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -268,7 +273,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyOneSpritesheet.png',
@@ -312,7 +318,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -357,7 +364,8 @@ MyGame.WaveCreator = (function() {
                     totalTime: 0,
                     moveTime: moveTimeIncrement,
                     formation: true,
-                    diving: false
+                    diving: false,
+                        ai: false
                 });
                 let enemyRenderer = MyGame.render.AnimatedModel({
                     spriteSheet: 'assets/enemyThreeSpritesheet.png',
@@ -406,7 +414,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyOneSpritesheet.png',
@@ -455,7 +464,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyOneSpritesheet.png',
@@ -499,7 +509,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -543,7 +554,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -587,7 +599,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -631,7 +644,8 @@ MyGame.WaveCreator = (function() {
                         totalTime: 0,
                         moveTime: moveTimeIncrement,
                         formation: true,
-                        diving: false
+                        diving: false,
+                        ai: false
                     });
                     let enemyRenderer = MyGame.render.AnimatedModel({
                         spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -680,7 +694,8 @@ MyGame.WaveCreator = (function() {
                     totalTime: 0,
                     moveTime: moveTimeIncrement,
                     formation: true,
-                    diving: false
+                    diving: false,
+                        ai: false
                 });
                 let enemyRenderer = MyGame.render.AnimatedModel({
                     spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -723,7 +738,8 @@ MyGame.WaveCreator = (function() {
                     totalTime: 0,
                     moveTime: moveTimeIncrement,
                     formation: true,
-                    diving: false
+                    diving: false,
+                        ai: false
                 });
                 let enemyRenderer = MyGame.render.AnimatedModel({
                     spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -767,7 +783,8 @@ MyGame.WaveCreator = (function() {
                     totalTime: 0,
                     moveTime: moveTimeIncrement,
                     formation: true,
-                    diving: false
+                    diving: false,
+                        ai: false
                 });
                 let enemyRenderer = MyGame.render.AnimatedModel({
                     spriteSheet: 'assets/enemyThreeSpritesheet.png',
@@ -811,7 +828,8 @@ MyGame.WaveCreator = (function() {
                     totalTime: 0,
                     moveTime: moveTimeIncrement,
                     formation: true,
-                    diving: false
+                    diving: false,
+                        ai: false
                 });
                 let enemyRenderer = MyGame.render.AnimatedModel({
                     spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -854,7 +872,8 @@ MyGame.WaveCreator = (function() {
                     totalTime: 0,
                     moveTime: moveTimeIncrement,
                     formation: true,
-                    diving: false
+                    diving: false,
+                        ai: false
                 });
                 let enemyRenderer = MyGame.render.AnimatedModel({
                     spriteSheet: 'assets/enemyTwoSpritesheet.png',
@@ -896,7 +915,8 @@ MyGame.WaveCreator = (function() {
                     totalTime: 0,
                     moveTime: moveTimeIncrement,
                     formation: true,
-                    diving: false
+                    diving: false,
+                        ai: false
                 });
                 let enemyRenderer = MyGame.render.AnimatedModel({
                     spriteSheet: 'assets/enemyTwoSpritesheet.png',

@@ -19,7 +19,7 @@ MyGame.assetCreator = (function() {
         return backgroundImage;
     }
 
-    function getEnemyBullet(enemy, elapsedTime) {
+    function getEnemyBullet(enemy, elapsedTime, particles) {
         // Define enemy image
         let bullet = new Image();
         bullet.isReady = false;
@@ -63,7 +63,7 @@ MyGame.assetCreator = (function() {
                     if ((bullet.center.y + (bullet.size.height / 2)) > (y - (height / 2))) {
                         if ((bullet.center.y - (bullet.size.height / 2)) < (y + (height / 2))) {
                             if (!bullet.destroy) {
-                                MyGame.Particles.playerExplosion(x, y);
+                                MyGame.Particles.playerExplosion(x, y, particles);
                                 MyGame.screens['game-play'].playerDeath();
                                 MyGame.SoundPlayer.playerExplosionSound();
                             }
